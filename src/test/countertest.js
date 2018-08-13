@@ -38,7 +38,7 @@ const web3Kovan = new Web3(providerKovan);
 const setupAccounts = async () => {
     accountsRinkeby = await web3Rinkeby.eth.getAccounts();
     accountsKovan = await web3Kovan.eth.getAccounts();
-    console.log("Hi2");
+    //console.log("Hi2");
     rinkebyContract = await new web3Rinkeby.eth.Contract(counterABI, rinkebyContractAddress);
     rinkebyERCContract = await new web3Rinkeby.eth.Contract(tokenABI, rinkebyERCContractAddress);
     kovanContract = await new web3Kovan.eth.Contract(counterABI, kovanContractAddress);
@@ -48,7 +48,7 @@ const setupAccounts = async () => {
 };
 
 const setup = async () => {
-    console.log("Hi");
+    //console.log("Hi");
     await setupAccounts();
     await createTx();
 };
