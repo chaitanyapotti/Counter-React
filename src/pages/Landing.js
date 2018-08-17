@@ -5,13 +5,16 @@ import { Grid, Col, Row } from "../helpers/Grid";
 
 class Landing extends Component {
   state = {
-    account: ""
+    account: "",
+    network: ""
   };
 
   async componentDidMount() {
     const account = await web3.eth.getAccounts();
+    const network = await web3.eth.net.getNetworkType();
     this.setState({
-      account: account[0]
+      account: account[0],
+      network: network
     });
   }
 
@@ -25,7 +28,10 @@ class Landing extends Component {
           <Col lg={4} xs={12}>
             <div>COUNTER</div>
             <div>OTC Trades made easy</div>
-            <div>You're logged in as {this.state.account}</div>
+            <div>
+              You're logged in as {this.state.account} in the{" "}
+              {this.state.network} network
+            </div>
             {/* <Form>
               <FormGroup>
                 <Input
