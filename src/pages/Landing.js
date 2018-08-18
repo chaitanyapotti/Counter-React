@@ -1,22 +1,34 @@
 import React, { Component } from "react";
-import { Button, Card } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Card } from "reactstrap";
 import web3 from "../helpers/web3";
+import Form from "./Form";
 import { Grid, Col, Row } from "../helpers/Grid";
-import {Header} from '../components';
+import {Header, ModalComponent, Trade, Claim} from '../components';
 
 class Landing extends Component {
-  state = {
-    account: "",
-    network: ""
-  };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            account: "",
+            network: "",
+            modal: false
+        };
+        this.toggle = this.toggle.bind(this);
+    }
+  
   async componentDidMount() {
     const account = await web3.eth.getAccounts();
     const network = await web3.eth.net.getNetworkType();
     this.setState({
       account: account[0],
       network: network
+    });
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
     });
   }
 
@@ -39,24 +51,16 @@ class Landing extends Component {
                                 <div className="push-top--45 txt-xxl">
                                     <div>Network Type - Kovan</div>
                                     <div>Spv - 100</div>
-                                    <Link to="/form">
-                                        <Button className="push--top txt-l" color="primary">Trade</Button>
-                                    </Link>
-                                    <Link to="/form">
-                                        <Button className="push--top push--left txt-l" color="primary">Claim</Button>
-                                    </Link>
+                                    <Trade class="push--top txt-l" onClick={this.toggle}/>
+                                    <Claim class="push--top push--left txt-l"  onClick={this.toggle}/>
                                 </div>
                             :
                                 this.state.network === "rinkeby" &&
                                     <div className="push-top--45 txt-xxl">
                                         <div>RinkeBy</div>
                                         <div>Ny to: 100</div>
-                                        <Link to="/form">
-                                            <Button className="push--top txt-l" color="primary">Trade</Button>
-                                        </Link>
-                                        <Link to="/form">
-                                            <Button className="push--top push--left txt-l" color="primary">Claim</Button>
-                                        </Link>
+                                        <Trade class="push--top txt-l" onClick={this.toggle} />
+                                        <Claim class="push--top push--left txt-l" onClick={this.toggle}/>
                                     </div>
                                 
                             }
@@ -70,6 +74,9 @@ class Landing extends Component {
                 </Col>
                 </Row>
             </Grid>
+            <ModalComponent toggle={this.toggle} modal={this.state.modal}>
+                <Form />
+            </ModalComponent>
         </div>
     );
   }
