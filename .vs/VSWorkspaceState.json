@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\pages"
   ],
-  "SelectedNode": "\\public",
+  "SelectedNode": "\\src\\pages\\Landing.js",
   "PreviewInSolutionExplorer": false
 }
