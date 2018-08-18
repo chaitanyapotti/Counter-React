@@ -1,6 +1,7 @@
 @import "helpers.css";
 @import "mobile.css";
 @import "counter.css";
+@import "toggleSwitch.css";
 
 @font-face {
   font-family: 'Product Sans';

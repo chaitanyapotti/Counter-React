@@ -21,3 +21,7 @@
 .mrgn-landng-txt{
     margin: -25px 0 0 3px;
 }
+
+.custom-classname.react-toggle--checked .react-toggle-track {
+    background-color: #ab199f;
+}

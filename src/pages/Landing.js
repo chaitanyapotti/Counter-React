@@ -5,7 +5,7 @@ import Form from "./Form";
 import { Grid, Col, Row } from "../helpers/Grid";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
-import { Header, ModalComponent, Trade, Claim } from "../components";
+import { Header, ModalComponent, Trade, Claim, ToggleSwitch, Toast } from "../components";
 
 class Landing extends Component {
   constructor(props) {
@@ -15,7 +15,8 @@ class Landing extends Component {
       network: "",
       kovanBalance: 0,
       rinkebyBalance: 0,
-      modal: false
+      modal: false,
+      checked: true
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -47,20 +48,26 @@ class Landing extends Component {
     });
   }
 
+  onToggle = () => {
+      this.setState({
+          checked: false
+      })
+  }
+
   render() {
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
         <Grid>
           <Row>
-            <Col lg={8} xs={12} style={{ height: "100vh" }} />
+            <Col lg={7} xs={12} style={{ height: "100vh" }} />
             <Col
-              lg={4}
+              lg={5}
               xs={12}
               style={{ height: "100vh" }}
               className="push-top--150"
             >
-              <Card style={{ padding: "40px" }}>
+              <Card style={{ padding: "40px", width:"500px" }}>
                 <div className="fnt-65 txt-grad">COUNTER</div>
                 <div className="txt-xxxxl opacity-50 mrgn-landng-txt">
                   OTC Trades made easy
@@ -106,8 +113,10 @@ class Landing extends Component {
           </Row>
         </Grid>
         <ModalComponent toggle={this.toggle} modal={this.state.modal}>
-          <Form />
+            <ToggleSwitch checked={this.state.checked} onToggle={this.onToggle} />
+            <Form />
         </ModalComponent>
+        <Toast/>
       </div>
     );
   }

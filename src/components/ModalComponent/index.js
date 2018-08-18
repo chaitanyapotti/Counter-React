@@ -6,10 +6,9 @@ import { Button, Modal, ModalBody, ModalFooter } from 'reactstrap';
 class ModalComponent extends React.Component {
 
   render() {
-    const externalCloseBtn = <button className="close" style={{ position: 'absolute', top: '15px', right: '15px' }} onClick={this.props.toggle}>&times;</button>;
     return (
       <div>
-        <Modal isOpen={this.props.modal} toggle={this.props.toggle} className={this.props.className} external={externalCloseBtn}>
+        <Modal isOpen={this.props.modal} toggle={this.props.toggle} backdrop="static" size="lg">
           <ModalBody>
             {this.props.children}
           </ModalBody>
