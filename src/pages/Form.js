@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import web3 from "../web3";
-import counterRinkeby from "../counterRinkeby";
-import counterErcRinkeby from "../counterErcRinkeby";
-import counterKovan from "../counterKovan";
+import web3 from "../utility/web3";
+import counterRinkeby from "../contractInstances/counterRinkeby";
+import counterErcRinkeby from "../contractInstances/counterErcRinkeby";
+import counterKovan from "../contractInstances/counterKovan";
 
 class Form extends Component {
   constructor(props) {

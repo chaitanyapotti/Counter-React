@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import { Link } from "react-router-dom";
-import web3 from "../web3";
+import web3 from "../utility/web3";
 import { Grid, Col, Row } from "../helpers/Grid";
 
 class Landing extends Component {
