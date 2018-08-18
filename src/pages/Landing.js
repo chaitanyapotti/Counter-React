@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Card } from "reactstrap";
 import { Link } from "react-router-dom";
-import web3 from "../utility/web3";
+import web3 from "../helpers/web3";
 import { Grid, Col, Row } from "../helpers/Grid";
 import {Header} from '../components';
 
@@ -47,16 +47,18 @@ class Landing extends Component {
                                     </Link>
                                 </div>
                             :
-                                <div className="push-top--45 txt-xxl">
-                                    <div>RinkeBy</div>
-                                    <div>Ny to: 100</div>
-                                    <Link to="/form">
-                                        <Button className="push--top txt-l" color="primary">Trade</Button>
-                                    </Link>
-                                    <Link to="/form">
-                                        <Button className="push--top push--left txt-l" color="primary">Claim</Button>
-                                    </Link>
-                                </div>
+                                this.state.network === "rinkeby" &&
+                                    <div className="push-top--45 txt-xxl">
+                                        <div>RinkeBy</div>
+                                        <div>Ny to: 100</div>
+                                        <Link to="/form">
+                                            <Button className="push--top txt-l" color="primary">Trade</Button>
+                                        </Link>
+                                        <Link to="/form">
+                                            <Button className="push--top push--left txt-l" color="primary">Claim</Button>
+                                        </Link>
+                                    </div>
+                                
                             }
                         </div>
                         ) : (
