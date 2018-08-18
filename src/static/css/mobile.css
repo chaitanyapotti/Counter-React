@@ -1,0 +1,39 @@
+@media only screen and (max-width: 768px) {
+    
+    .dsply-web{
+      display: none !important;
+    }
+    
+    .dsply-mob{
+      display: flex !important;
+    }
+
+    .push-mob--45{
+        margin-top: 45px;
+    }
+
+    .push-mob--top15{
+        margin-top: 15px;
+    }
+
+    .push-mob--top150{
+        margin-top: 150px;
+    }
+
+    .text-mob--right{
+        text-align: right !important;
+    }
+
+    .text-mob--center{
+        text-align: center !important;
+    }
+
+    .text-mob--left{
+        text-align: left !important;
+    }
+
+    .mrgn-auto-mob{
+        margin: 0 auto;
+    }
+}
+  

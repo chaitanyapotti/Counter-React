@@ -1,0 +1,407 @@
+@import "helpers.css";
+@import "mobile.css";
+@import "counter.css";
+
+@font-face {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open Sans"), local("OpenSans"), url(https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: "Mohave Italic";
+  src:    url("/fonts/mohave-italic-webfont.woff") format("woff"),
+          url("/fonts/mohave-italic-webfont.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "Mohave";
+  src:    url("/fonts/mohave-regular-webfont.woff") format("woff"),
+          url("/fonts/mohave-regular-webfont.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "Mohave Light Italic";
+  src:    url("/fonts/mohave-lightitalic-webfont.woff") format("woff"),
+          url("/fonts/mohave-lightitalic-webfont.ttf") format("opentype");
+}
+
+@font-face {
+  font-family: "Mohave Light";
+  src:    url("/fonts/mohave-light-webfont.woff") format("woff"),
+          url("/fonts/mohave-light-webfont.ttf") format("opentype");
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #ffffff !important;
+  font-family: Mohave;
+}
+
+.form-control{
+  border-radius: 0px;
+}
+
+.bg-trans{
+  background: transparent;
+}
+
+* {
+  outline: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.auto-margin{
+  margin: 0 auto;
+}
+
+/* -------------------------------------------------- */
+/* Font Families */
+/* -------------------------------------------------- */
+
+.fnt-mhi{
+  font-family: Mohave Italic !important;
+}
+
+.fnt-ps{
+  font-family: Product Sans !important;
+}
+
+.fnt-mli{
+  font-family: Mohave Light Italic !important;
+}
+
+.fnt-ml{
+  font-family: Mohave Light !important;
+}
+
+.fnt-italic{
+  font-style: italic;
+}
+
+
+/* -------------------------------------------------- */
+/* Text Font Sizes */
+/* -------------------------------------------------- */
+
+.txt {
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.txt-xs {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.txt-s {
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.txt-m {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.txt-l {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.txt-xl {
+  font-size: 24px;
+  line-height: 28px;
+}
+
+.txt-xxl {
+  font-size: 28px;
+  line-height: 32px;
+}
+
+.txt-xxxl {
+  font-size: 30px;
+  line-height: 34px;
+}
+
+.txt-xxxxl {
+  font-size: 32px;
+  line-height: 50px;
+}
+
+.txt-p-vault {
+  font-size: 25px;
+  line-height: 30px;
+}
+
+/* -------------------------------------------------- */
+/* Text Colors */
+/* -------------------------------------------------- */
+
+.text--white {
+  color: #ffffff !important;
+}
+
+.text--primary {
+  color: #e1423e;
+}
+
+
+/* -------------------------------------------------- */
+/* Text Helpers */
+/* -------------------------------------------------- */
+
+.txt-upper {
+  text-transform: uppercase;
+}
+
+.txt-capitalize {
+  text-transform: capitalize;
+}
+
+.txt-nbld {
+  font-weight: 300;
+}
+
+.txt-bld {
+  font-weight: 400;
+}
+
+.txt-dbld {
+  font-weight: 500;
+}
+
+.txt-ddbld {
+  font-weight: 600;
+}
+
+.txt-dddbld {
+  font-weight: 700;
+}
+
+/* -------------------------------------------------- */
+/* Border */
+/* -------------------------------------------------- */
+
+.brdr-g-divider {
+  border: 1px solid #DFE0E3;
+}
+
+.brdr-g-tdivider {
+  border-top: 1px solid #DFE0E3;
+}
+
+.nbrdr {
+  border: none;
+}
+
+/* -------------------------------------------------- */
+/* Background */
+/* -------------------------------------------------- */
+
+.bg--white {
+  background: #ffffff;
+}
+
+.bg--primary {
+  background: #e1423e;
+}
+
+
+/* -------------------------------------------------- */
+/* Link */
+/* -------------------------------------------------- */
+.lnk--p {
+  color: #599a02 !important
+}
+
+.lnk--p:hover {
+  cursor: pointer;
+  color: #599a02 !important
+}
+
+.lnk--i {
+  font-weight: normal;
+  color: #1469cc !important
+}
+
+.lnk--i:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #125db5
+}
+
+/* -------------------------------------------------- */
+/*  Horizontal List */
+/* -------------------------------------------------- */
+
+.hl {
+  font-size: 0
+}
+
+.hl > .hli {
+  font-size: 14px;
+  display: inline-block;
+  vertical-align: top
+}
+
+.hl--bgrid > .hli {
+  margin-right: 15px
+}
+
+.hl--bgrid > .hli:last-child {
+  margin-right: 0
+}
+
+.hl-eq {
+  display: table;
+  width: 100%;
+  table-layout: fixed
+}
+
+.hl-eq > .hl-eqi {
+  display: table-cell;
+  height: 100%;
+  vertical-align: top
+}
+
+/* -------------------------------------------------- */
+/* Position  */
+/* -------------------------------------------------- */
+.pos-abs {
+  position: absolute;
+}
+
+.pos-rel {
+  position: relative;
+}
+
+/* -------------------------------------------------- */
+/* Flex Center  */
+/* -------------------------------------------------- */
+
+.cntr {
+  display: flex;
+  justify-content: center;
+}
+
+.cntr__itm {
+  align-self: center;
+}
+
+/* -------------------------------------------------- */
+/* separator*/
+/* -------------------------------------------------- */
+
+.hr-sprtr {
+  height: 1px;
+  background-color: #dfe0e3;
+  width: 15%;
+  margin: 0 auto;
+}
+
+/* -------------------------------------------------- */
+/* Vertical and Horizontal page center alignment css*/
+/* -------------------------------------------------- */
+
+.hr-vr-cntr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* -------------------------------------------------- */
+/* hover link animation css*/
+/* -------------------------------------------------- */
+
+#hover:hover + .hvr-line{
+  display: block;
+}
+
+#hover:hover + .hvr-line + .fk-ht{
+  height: 0 ;
+}
+
+.fk-ht{
+  height: 6px;
+}
+
+.hvr-line{
+  width: 239px;
+  height: 6px;
+  margin: 0 auto;
+  z-index: -1;
+  position: relative;
+  top: -20px;
+  display: none;
+  background-image: linear-gradient(to right, #7059de 0%, #4b83e0 42%, #2fa1e2 79%, #25ade3 100%);
+}
+
+
+/* -------------------------------------------------- */
+/* Display Web and mobile */
+/* -------------------------------------------------- */
+
+.dsply-web{
+  display: flex;
+}
+
+.dsply-mob{
+  display: none;
+}
+
+/* -------------------------------------------------- */
+/* Subheader */
+/* -------------------------------------------------- */
+
+.hdr-rct-lg{
+  width: 364px;
+  height: 75px;
+  background-image: linear-gradient(51deg, #7059de 0%, #4b83e0 42%, #2fa1e2 79%, #25ade3 100%);
+}
+
+.hdr-rct-sm{
+  width: 274px;
+  height: 17px;
+  background-image: linear-gradient(51deg, #7059de 0%, #4b83e0 42%, #2fa1e2 79%, #25ade3 100%);
+  margin-top: 35px;
+  margin-left: 23%;
+}
+
+.hdr-txt{
+  color: #ffffff;
+  font-family:"Mohave", sans-serif;
+  font-size: 75px;
+  font-weight: 550;
+  top: 16px;
+  left: 15%;
+}
+/* -------------------------------------------------- */
+/* Media Queries */
+/* -------------------------------------------------- */
+
+@media only screen and (max-width: 969px) {
+  .show-medium-up {
+      display: none !important;
+  }
+}
+
+@media only screen and (min-width: 970px) {
+  .show-small-only {
+      display: none !important;
+  }
+}

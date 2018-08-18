@@ -1,0 +1,23 @@
+.txt-grad{
+    background: linear-gradient(141deg, #9fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.fnt-65{
+    font-size: 65px;
+}
+
+.landing-img{
+    background-image: url("/assets/trade.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.opacity-50{
+    opacity: 0.5;
+}
+
+.mrgn-landng-txt{
+    margin: -25px 0 0 3px;
+}
