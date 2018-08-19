@@ -79,16 +79,19 @@ class ClaimForm extends Component {
     return (
       <div>
         <h2>Transaction Details</h2>
-        <TextField
-          label="Enter the counterparty address"
-          placeholder="Address"
-          value={this.state.counterpartyAddress}
-          onChange={event =>
-            this.setState({ counterpartyAddress: event.target.value })
-          }
-        />
-        <FetchDetails onClick={this.onFetchDetails} />
+       
         <Form>
+          <div>
+            <TextField
+              label="Enter the counterparty address"
+              placeholder="Address"
+              value={this.state.counterpartyAddress}
+              onChange={event =>
+                this.setState({ counterpartyAddress: event.target.value })
+              }
+            />
+            <FetchDetails class="push--bottom" onClick={this.onFetchDetails} />
+          </div>
           <TextField
             label="Secret"
             name="secret"

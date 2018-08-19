@@ -159,18 +159,19 @@ class InitiatedForm extends Component {
     return (
       <div>
         <h2>Transaction Details</h2>
-        <div>
-            <TextField
-            label="Enter the address of the Initiator"
-            placeholder="Address"
-            value={this.state.initiatorAddress}
-            onChange={event =>
-                this.setState({ initiatorAddress: event.target.value })
-            }
-            />
-            <FetchDetails class="push--bottom" onClick={this.onFetchDetails} />
-        </div>
+       
         <Form>
+            <div>
+                <TextField
+                label="Enter the address of the Initiator"
+                placeholder="Address"
+                value={this.state.initiatorAddress}
+                onChange={event =>
+                    this.setState({ initiatorAddress: event.target.value })
+                }
+                />
+                <FetchDetails class="push--bottom" onClick={this.onFetchDetails} />
+            </div>
           <TextField
             label="Encoded Secret"
             name="encodedSecret"

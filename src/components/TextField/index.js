@@ -1,8 +1,7 @@
 import React from "react";
-import { Form, FormGroup, Label, Input } from "reactstrap";
+import {FormGroup, Label, Input } from "reactstrap";
 
 const TextField = props => (
-  <Form>
     <FormGroup>
       <Label for="exampleEmail">{props.label}</Label>
       <Input
@@ -13,7 +12,6 @@ const TextField = props => (
         placeholder={props.placeholder}
       />
     </FormGroup>
-  </Form>
 );
 
 export default TextField;
