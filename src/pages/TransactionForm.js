@@ -18,7 +18,7 @@ class TransactionForm extends Component {
       addressTrading: "",
       encodedSecret: "",
       isApproved: false,
-      isCreated: false,
+      isCreated: true,
       message: "" //Use message to set what to show on error window
     };
   }
@@ -48,7 +48,7 @@ class TransactionForm extends Component {
           .send({ from: accounts[0] });
       }
       if (typeof txResponse !== undefined)
-        this.setState({ message: "approved...", isApproved: true });
+        this.setState({ message: "approved...", isApproved: true , isCreated: false});
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",
@@ -142,9 +142,12 @@ class TransactionForm extends Component {
         </Form>
 
         <div>
-          <Approve onClick={this.onApproveClick} />
+          <Approve
+           onClick={this.onApproveClick}
+           disabled={this.state.isApproved} 
+          />
           <CreateTransaction
-            disabled={this.props.disabled}
+            disabled={this.state.isCreated}
             class="push--left"
             onClick={this.onTransactionClick}
           />
