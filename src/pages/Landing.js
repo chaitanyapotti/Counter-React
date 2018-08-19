@@ -23,7 +23,8 @@ class Landing extends Component {
       rinkebyBalance: 0,
       modal: false,
       claimModal: false,
-      checked: true
+      checked: true,
+      disabled: true
     };
   }
 
@@ -156,6 +157,7 @@ class Landing extends Component {
           modal={this.state.modal}
           checked={this.state.checked}
           onToggle={this.onToggle}
+          disabled={this.state.disabled}
         />
         <ClaimModal
           claimModal={this.state.claimModal}
