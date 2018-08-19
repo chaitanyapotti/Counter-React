@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { Form } from "reactstrap";
 import ModalComponent from "../ModalComponent";
 import TransactionForm from "../../pages/TransactionForm";
 import InitiatedForm from "../../pages/InitiatedForm";
 import ToggleSwitch from "../ToggleSwitch";
-import TextField from "../TextField";
 
-//Need to passs toggle state into transaction form
+//Need to pass toggle state into transaction form
 class TradeModal extends Component {
   constructor(props) {
     super(props);
