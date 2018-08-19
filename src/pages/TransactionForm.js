@@ -45,7 +45,6 @@ class TransactionForm extends Component {
 
   onTransactionClick = async event => {
     event.preventDefault();
-    const encodedSecret = await web3.utils.soliditySha3(this.state.secret);
     //Show encodedSecret to user in the input form
     const accounts = await web3.eth.getAccounts();
     const network = await web3.eth.net.getNetworkType();
