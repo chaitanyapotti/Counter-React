@@ -118,6 +118,7 @@ class Landing extends Component {
                         />
                         <Claim
                           class="push--top push--left txt-l"
+                          disabled={!this.state.hasTransactionAlready}
                           onClick={this.claimToggle}
                         />
                       </div>
@@ -147,6 +148,7 @@ class Landing extends Component {
                           />
                           <Claim
                             class="push--top push--left txt-l"
+                            disabled={!this.state.hasTransactionAlready}
                             onClick={this.claimToggle}
                           />
                         </div>
