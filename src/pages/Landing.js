@@ -25,6 +25,7 @@ class Landing extends Component {
       rinkebyBalance: 0,
       modal: false,
       claimModal: false,
+      hasTransactionAlready: false
     };
   }
 
@@ -49,12 +50,12 @@ class Landing extends Component {
         .call();
     }
     //Property to check if has transaction
-    console.log(hasTransactionAlready.amount === 0);
     this.setState({
       account: account[0],
       network: network,
       kovanBalance: kovanBalance,
-      rinkebyBalance: rinkebyBalance
+      rinkebyBalance: rinkebyBalance,
+      hasTransactionAlready: hasTransactionAlready.amount !== 0
     });
   }
 
@@ -157,10 +158,7 @@ class Landing extends Component {
             </Col>
           </Row>
         </Grid>
-        <TradeModal
-          toggle={this.toggle}
-          modal={this.state.modal}
-        />
+        <TradeModal toggle={this.toggle} modal={this.state.modal} />
         <ClaimModal
           claimModal={this.state.claimModal}
           claimToggle={this.claimToggle}
