@@ -1,10 +1,21 @@
 import React, { Component } from "react";
 import { Form } from "reactstrap";
+import Web3 from "web3";
 import web3 from "../helpers/web3";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
 import counterKovan from "../helpers/contractInstances/counterKovan";
-import { TextField, Approve, CreateTransaction } from "../components";
+import {
+  abi,
+  counterKovanAddress,
+  counterRinkebyAddress
+} from "../helpers/contractInstances/counterDetails";
+import {
+  TextField,
+  Approve,
+  CreateTransaction,
+  FetchDetails
+} from "../components";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
 
 class InitiatedForm extends Component {
@@ -12,7 +23,7 @@ class InitiatedForm extends Component {
     super(props);
 
     this.state = {
-      secret: "",
+      initiatorAddress: "",
       amountNyto: "",
       amountSpv: "",
       addressTrading: "",
@@ -23,12 +34,18 @@ class InitiatedForm extends Component {
     };
   }
 
-  calculateEncodedSecret = async event => {
-    event.persist();
-    const secret = event.target.value;
-    const encodedSecret = await web3.utils.soliditySha3(secret);
-    console.log(encodedSecret);
-    this.setState({ encodedSecret: encodedSecret, secret: secret });
+  web3Read = network => {
+    const kovanInfura =
+      "https://kovan.infura.io/v3/dc22c9c6245742069d5fe663bfa8a698";
+    const rinkebyInfura =
+      "https://rinkeby.infura.io/v3/dc22c9c6245742069d5fe663bfa8a698";
+    switch (network) {
+      case "rinkeby":
+      default:
+        return new Web3(rinkebyInfura);
+      case "kovan":
+        return new Web3(kovanInfura);
+    }
   };
 
   onApproveClick = async event => {
@@ -48,7 +65,11 @@ class InitiatedForm extends Component {
           .send({ from: accounts[0] });
       }
       if (typeof txResponse !== undefined)
-        this.setState({ message: "approved...", isApproved: true , isCreated: false});
+        this.setState({
+          message: "approved...",
+          isApproved: true,
+          isCreated: false
+        });
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",
@@ -78,7 +99,7 @@ class InitiatedForm extends Component {
           .send({
             from: accounts[0]
           });
-      } else if (network === "rinkeby") {
+      } else if (network === "kovan") {
         txResponse = await counterKovan.methods
           .createTx(
             this.props.isInitiator,
@@ -101,17 +122,53 @@ class InitiatedForm extends Component {
     }
   };
 
+  onFetchDetails = async event => {
+    const network = await web3.eth.net.getNetworkType();
+    let txResponse;
+    const web3Read = this.web3Read(network === "rinkeby" ? "kovan" : "rinkeby");
+    if (network === "rinkeby") {
+      txResponse = await new web3Read.eth.Contract(
+        abi,
+        counterKovanAddress
+      ).methods
+        .transactionMapping(this.state.initiatorAddress)
+        .call();
+
+      this.setState({
+        amountSpv: txResponse.amount
+      });
+    } else if (network === "kovan") {
+      txResponse = await new web3Read.eth.Contract(
+        abi,
+        counterRinkebyAddress
+      ).methods
+        .transactionMapping(this.state.initiatorAddress)
+        .call();
+      this.setState({
+        amountNyto: txResponse.amount
+      });
+    }
+    console.log(txResponse);
+    this.setState({
+      encodedSecret: txResponse.digest,
+      addressTrading: this.state.initiatorAddress
+    });
+  };
+
   render() {
     return (
       <div>
         <h2>Transaction Details</h2>
+        <TextField
+          label="Enter the address of the Initiator"
+          placeholder="Address"
+          value={this.state.initiatorAddress}
+          onChange={event =>
+            this.setState({ initiatorAddress: event.target.value })
+          }
+        />
+        <FetchDetails onClick={this.onFetchDetails} />
         <Form>
-          <TextField
-            label="Secret"
-            name="secret"
-            value={this.state.secret}
-            onChange={event => this.calculateEncodedSecret(event)}
-          />
           <TextField
             label="Encoded Secret"
             name="encodedSecret"
@@ -135,16 +192,13 @@ class InitiatedForm extends Component {
             label="Address Trading With:"
             name="address-trading"
             value={this.state.addressTrading}
-            onChange={event =>
-              this.setState({ addressTrading: event.target.value })
-            }
           />
         </Form>
 
         <div>
           <Approve
-           onClick={this.onApproveClick}
-           disabled={this.state.isApproved} 
+            onClick={this.onApproveClick}
+            disabled={this.state.isApproved}
           />
           <CreateTransaction
             disabled={this.state.isCreated}
@@ -156,5 +210,4 @@ class InitiatedForm extends Component {
     );
   }
 }
-
 export default InitiatedForm;

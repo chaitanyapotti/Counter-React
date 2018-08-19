@@ -48,7 +48,11 @@ class TransactionForm extends Component {
           .send({ from: accounts[0] });
       }
       if (typeof txResponse !== undefined)
-        this.setState({ message: "approved...", isApproved: true , isCreated: false});
+        this.setState({
+          message: "approved...",
+          isApproved: true,
+          isCreated: false
+        });
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",
@@ -78,7 +82,7 @@ class TransactionForm extends Component {
           .send({
             from: accounts[0]
           });
-      } else if (network === "rinkeby") {
+      } else if (network === "kovan") {
         txResponse = await counterKovan.methods
           .createTx(
             this.props.isInitiator,
@@ -143,8 +147,8 @@ class TransactionForm extends Component {
 
         <div>
           <Approve
-           onClick={this.onApproveClick}
-           disabled={this.state.isApproved} 
+            onClick={this.onApproveClick}
+            disabled={this.state.isApproved}
           />
           <CreateTransaction
             disabled={this.state.isCreated}
