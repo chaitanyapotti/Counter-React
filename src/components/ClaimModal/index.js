@@ -1,6 +1,6 @@
 import React from 'react';
 import ModalComponent from '../ModalComponent';
-import Form from '../../pages/Form';
+import Form from '../../pages/TransactionForm';
 import ToggleSwitch from '../ToggleSwitch';
 import TextField from '../TextField';
 

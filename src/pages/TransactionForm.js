@@ -1,10 +1,12 @@
 import React, { Component } from "react";
+import { Form } from "reactstrap";
 import web3 from "../helpers/web3";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
 import counterKovan from "../helpers/contractInstances/counterKovan";
+import { TextField, Approve, Claim, CreateTransaction } from "../components";
 
-class Form extends Component {
+class TransactionForm extends Component {
   constructor(props) {
     super(props);
 
@@ -61,58 +63,39 @@ class Form extends Component {
     return (
       <div>
         <h2>Transaction Details</h2>
-        <form>
-          <label>Secret:</label>
-          <input
-            type="text"
-            name="name"
-            className="secret"
+        <Form>
+          <TextField 
+            label="Secret"
+            name="secret"
             value={this.state.secret}
             onChange={event => this.setState({ secret: event.target.value })}
           />
-          <label>Amount Nyto:</label>
-          <input
-            type="text"
-            name="name"
-            className="amount-nyto"
+          <TextField 
+            label="Amount Nyto:"
+            name="amountNyto"
             value={this.state.amountNyto}
-            onChange={event =>
-              this.setState({ amountNyto: event.target.value })
-            }
+            onChange={event => this.setState({ amountNyto: event.target.value })}
           />
-          <label>Amount Spv:</label>
-          <input
-            type="text"
-            name="name"
-            className="amount-spv"
+          <TextField 
+            label="Amount Spv:"
+            name="amount-spv"
             value={this.state.amountSpv}
             onChange={event => this.setState({ amountSpv: event.target.value })}
           />
-
-          <label>Address Trading With:</label>
-          <input
-            type="text"
-            name="name"
-            className="address-trading"
+          <TextField 
+            label="Address Trading With:"
+            name="address-trading"
             value={this.state.addressTrading}
-            onChange={event =>
-              this.setState({ addressTrading: event.target.value })
-            }
+            onChange={event => this.setState({ addressTrading: event.target.value })}
           />
-        </form>
+        </Form>
 
-        <input type="submit" value="Approve" onClick={this.onApproveClick} />
-        <br />
-        <input
-          type="submit"
-          value="Create Transaction"
-          onClick={this.onTransactionClick}
-        />
-        <br />
-        <input type="submit" value="Claim" onClick={this.onClaimClick} />
+        <div><Approve onClick={this.onApproveClick}/></div>
+        <div><CreateTransaction onClick={this.onTransactionClick}/></div>
+        <div><Claim onClick={this.onClaimClick}/></div>
       </div>
     );
   }
 }
 
-export default Form;
+export default TransactionForm;

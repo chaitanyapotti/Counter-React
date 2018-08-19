@@ -1,6 +1,7 @@
 import React from 'react';
+import { Form } from "reactstrap";
 import ModalComponent from '../ModalComponent';
-import Form from '../../pages/Form';
+import TransactionForm from '../../pages/TransactionForm';
 import ToggleSwitch from '../ToggleSwitch';
 import TextField from '../TextField';
 
@@ -10,12 +11,14 @@ const TradeModal = (props) =>
             props.checked ?
             <div>
                 <ToggleSwitch checked={props.checked} onToggle={props.onToggle} />
-                <Form />
+                <TransactionForm />
             </div>
             :
             <div>
                 <ToggleSwitch checked={props.checked} onToggle={props.onToggle} />
-                <TextField label="Enter the Metamask Address" />
+                <Form>
+                    <TextField label="Enter the Metamask Address" />
+                </Form>
             </div>
         }
         

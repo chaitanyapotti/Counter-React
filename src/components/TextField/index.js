@@ -1,13 +1,13 @@
 import React from 'react';
-import {Form, FormGroup, Label, Input} from 'reactstrap';
+import {FormGroup, Label, Input} from 'reactstrap';
 
 const TextField = (props) =>
-        <Form>
+        <div>
             <FormGroup>
             <Label for="exampleEmail">{props.label}</Label>
-            <Input type="text" name="text"  placeholder="metamask address" />
+            <Input type="text" name={props.name} value={props.value} onChange={props.onChange} />
             </FormGroup>
-        </Form>
+        </div>
 
 export default TextField
 
