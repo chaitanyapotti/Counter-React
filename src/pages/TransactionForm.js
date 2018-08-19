@@ -120,10 +120,8 @@ class TransactionForm extends Component {
         </Form>
 
         <div>
-          <Approve onClick={this.onApproveClick} />
-        </div>
-        <div>
-          <CreateTransaction onClick={this.onTransactionClick} />
+          <Approve onClick={this.onApproveClick}/>
+          <CreateTransaction disabled={this.props.disabled} class="push--left" onClick={this.onTransactionClick}/>
         </div>
       </div>
     );

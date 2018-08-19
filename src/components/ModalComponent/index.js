@@ -13,8 +13,7 @@ class ModalComponent extends React.Component {
             {this.props.children}
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.props.toggle}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.props.toggle}>Cancel</Button>
+            <Button color="primary" onClick={this.props.toggle}>Ok</Button>
           </ModalFooter>
         </Modal>
       </div>
