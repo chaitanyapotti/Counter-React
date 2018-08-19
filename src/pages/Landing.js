@@ -112,7 +112,11 @@ class Landing extends Component {
                             </tr>
                           </tbody>
                         </Table>
-                        <Trade class="push--top txt-l" onClick={this.toggle} />
+                        <Trade
+                         class="push--top txt-l"  
+                         disabled={this.state.hasTransactionAlready}
+                         onClick={this.toggle} 
+                        />
                         <Claim
                           class="push--top push--left txt-l"
                           onClick={this.claimToggle}
@@ -140,6 +144,7 @@ class Landing extends Component {
                           <Trade
                             class="push--top txt-l"
                             onClick={this.toggle}
+                            disabled={this.state.hasTransactionAlready}
                           />
                           <Claim
                             class="push--top push--left txt-l"
@@ -158,7 +163,10 @@ class Landing extends Component {
             </Col>
           </Row>
         </Grid>
-        <TradeModal toggle={this.toggle} modal={this.state.modal} />
+        <TradeModal 
+          toggle={this.toggle} 
+          modal={this.state.modal} 
+        />
         <ClaimModal
           claimModal={this.state.claimModal}
           claimToggle={this.claimToggle}
