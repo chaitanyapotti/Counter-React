@@ -10,6 +10,7 @@ import ClaimModal from "./ClaimModal";
 import CreateTransaction from "./CreateTransaction";
 import ModalComponent from "./ModalComponent";
 import FetchDetails from "./FetchDetails";
+import Refund from "./Refund";
 
 export {
   Header,
@@ -23,5 +24,6 @@ export {
   ClaimModal,
   CreateTransaction,
   ModalComponent,
-  FetchDetails
+  FetchDetails,
+  Refund
 };
