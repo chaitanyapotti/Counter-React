@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form } from "reactstrap";
 import web3 from "../helpers/web3";
+import { web3Read } from "../helpers/web3Read";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
 import counterKovan from "../helpers/contractInstances/counterKovan";
@@ -12,7 +13,6 @@ class InitiatedForm extends Component {
     super(props);
 
     this.state = {
-      secret: "",
       amountNyto: "",
       amountSpv: "",
       addressTrading: "",
@@ -22,14 +22,6 @@ class InitiatedForm extends Component {
       message: "" //Use message to set what to show on error window
     };
   }
-
-  calculateEncodedSecret = async event => {
-    event.persist();
-    const secret = event.target.value;
-    const encodedSecret = await web3.utils.soliditySha3(secret);
-    console.log(encodedSecret);
-    this.setState({ encodedSecret: encodedSecret, secret: secret });
-  };
 
   onApproveClick = async event => {
     event.preventDefault();
@@ -48,7 +40,11 @@ class InitiatedForm extends Component {
           .send({ from: accounts[0] });
       }
       if (typeof txResponse !== undefined)
-        this.setState({ message: "approved...", isApproved: true , isCreated: false});
+        this.setState({
+          message: "approved...",
+          isApproved: true,
+          isCreated: false
+        });
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",
@@ -107,12 +103,6 @@ class InitiatedForm extends Component {
         <h2>Transaction Details</h2>
         <Form>
           <TextField
-            label="Secret"
-            name="secret"
-            value={this.state.secret}
-            onChange={event => this.calculateEncodedSecret(event)}
-          />
-          <TextField
             label="Encoded Secret"
             name="encodedSecret"
             value={this.state.encodedSecret}
@@ -121,30 +111,23 @@ class InitiatedForm extends Component {
             label="Amount Nyto:"
             name="amountNyto"
             value={this.state.amountNyto}
-            onChange={event =>
-              this.setState({ amountNyto: event.target.value })
-            }
           />
           <TextField
             label="Amount Spv:"
             name="amount-spv"
             value={this.state.amountSpv}
-            onChange={event => this.setState({ amountSpv: event.target.value })}
           />
           <TextField
             label="Address Trading With:"
             name="address-trading"
             value={this.state.addressTrading}
-            onChange={event =>
-              this.setState({ addressTrading: event.target.value })
-            }
           />
         </Form>
 
         <div>
           <Approve
-           onClick={this.onApproveClick}
-           disabled={this.state.isApproved} 
+            onClick={this.onApproveClick}
+            disabled={this.state.isApproved}
           />
           <CreateTransaction
             disabled={this.state.isCreated}
