@@ -5,13 +5,14 @@ import TransactionForm from "../../pages/TransactionForm";
 import ToggleSwitch from "../ToggleSwitch";
 import TextField from "../TextField";
 
+//Need to passs toggle state into transaction form
 const TradeModal = props => (
   <ModalComponent toggle={props.toggle} modal={props.modal}>
     {props.checked ? (
       <div>
         <span>Do you wish to initate a trade </span>
         <ToggleSwitch checked={props.checked} onToggle={props.onToggle} />
-        <TransactionForm />
+        <TransactionForm isInitiator={props.checked} />
       </div>
     ) : (
       <div>
@@ -21,6 +22,7 @@ const TradeModal = props => (
           label="Enter the address of the Initiator"
           placeholder="Address"
         />
+        <TransactionForm isInitiator={props.checked} />
       </div>
     )}
   </ModalComponent>
