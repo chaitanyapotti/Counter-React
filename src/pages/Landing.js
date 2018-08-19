@@ -115,7 +115,8 @@ class Landing extends Component {
                 <div className="txt-xxxxl opacity-50 mrgn-landng-txt">
                   OTC Trades made easy
                 </div>
-                {this.state.account !== undefined ? (
+                {this.state.account !== "" ?
+                  this.state.account !== undefined ? (
                   <div>
                     {this.state.network === "kovan" ? (
                       <div className="push-top--45 txt-xxl">
@@ -188,6 +189,12 @@ class Landing extends Component {
                     )}
                   </div>
                 ) : (
+                  <div className="txt-xl text--primary push-top--45">
+                    Please unlock/install metamask and then refresh the page
+                  </div>
+                )
+                :
+                (
                   <div className="txt-xl text--primary push-top--45">
                     Please unlock/install metamask and then refresh the page
                   </div>
