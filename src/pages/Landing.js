@@ -55,7 +55,7 @@ class Landing extends Component {
       network: network,
       kovanBalance: kovanBalance,
       rinkebyBalance: rinkebyBalance,
-      hasTransactionAlready: hasTransactionAlready.amount !== 0
+      hasTransactionAlready: hasTransactionAlready.amount !== '0'
     });
   }
 

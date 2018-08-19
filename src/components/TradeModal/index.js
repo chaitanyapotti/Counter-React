@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Form } from "reactstrap";
 import ModalComponent from "../ModalComponent";
 import TransactionForm from "../../pages/TransactionForm";
+import InitiatedForm from "../../pages/InitiatedForm";
 import ToggleSwitch from "../ToggleSwitch";
 import TextField from "../TextField";
 
@@ -40,7 +41,7 @@ class TradeModal extends Component{
             label="Enter the address of the Initiator"
             placeholder="Address"
           />
-          <TransactionForm isInitiator={this.state.checked} />
+          <InitiatedForm isInitiator={this.state.checked} />
         </div>
       )}
     </ModalComponent>
