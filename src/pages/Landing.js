@@ -26,7 +26,8 @@ class Landing extends Component {
       rinkebyBalance: 0,
       modal: false,
       claimModal: false,
-      hasTransactionAlready: false
+      hasTransactionAlready: false,
+      hasRefunded: false
     };
   }
 
@@ -59,6 +60,27 @@ class Landing extends Component {
       hasTransactionAlready: hasTransactionAlready.amount !== "0"
     });
   }
+
+  onRefundClick = async () => {
+    try {
+      const account = await web3.eth.getAccounts();
+      const network = await web3.eth.net.getNetworkType();
+
+      if (network === "kovan") {
+        await counterKovan.methods.refund().send({
+          from: account[0]
+        });
+      }
+      if (network === "rinkeby") {
+        await counterRinkeby.methods.refund().send({
+          from: account[0]
+        });
+      }
+      this.setState({ hasRefunded: true });
+    } catch (error) {
+      this.setState({ hasRefunded: false });
+    }
+  };
 
   toggle = () => {
     this.setState({
