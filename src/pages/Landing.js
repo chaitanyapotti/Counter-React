@@ -55,11 +55,7 @@ class Landing extends Component {
       network: network,
       kovanBalance: kovanBalance,
       rinkebyBalance: rinkebyBalance,
-<<<<<<< HEAD
       hasTransactionAlready: hasTransactionAlready.amount !== "0"
-=======
-      hasTransactionAlready: hasTransactionAlready.amount !== '0'
->>>>>>> 432a1c22d35a4fae3a3eda78942289ebe35c557f
     });
   }
 
