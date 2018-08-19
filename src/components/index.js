@@ -7,6 +7,7 @@ import Toast from './Toast';
 import TextField from './TextField';
 import TradeModal from './TradeModal';
 import ClaimModal from './ClaimModal';
+import CreateTransaction from './CreateTransaction';
 import ModalComponent from './ModalComponent';
 
 export {
@@ -19,5 +20,6 @@ export {
     TextField,
     TradeModal,
     ClaimModal,
+    CreateTransaction,
     ModalComponent
 }

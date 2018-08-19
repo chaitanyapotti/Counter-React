@@ -5,7 +5,13 @@ const TextField = props => (
   <Form>
     <FormGroup>
       <Label for="exampleEmail">{props.label}</Label>
-      <Input type="text" name="text" placeholder={props.placeholder} />
+      <Input
+        type="text"
+        name={props.name}
+        value={props.value}
+        onChange={props.onChange}
+        placeholder={props.placeholder}
+      />
     </FormGroup>
   </Form>
 );

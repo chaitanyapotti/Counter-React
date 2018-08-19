@@ -1,6 +1,6 @@
 import React from "react";
 import ModalComponent from "../ModalComponent";
-import ClaimForm from "../../pages/Form";
+import ClaimForm from "../../pages/ClaimForm";
 import ToggleSwitch from "../ToggleSwitch";
 import TextField from "../TextField";
 

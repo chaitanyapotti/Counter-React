@@ -1,6 +1,7 @@
 import React from "react";
+import { Form } from "reactstrap";
 import ModalComponent from "../ModalComponent";
-import Form from "../../pages/Form";
+import TransactionForm from "../../pages/TransactionForm";
 import ToggleSwitch from "../ToggleSwitch";
 import TextField from "../TextField";
 
@@ -10,7 +11,7 @@ const TradeModal = props => (
       <div>
         <span>Do you wish to initate a trade </span>
         <ToggleSwitch checked={props.checked} onToggle={props.onToggle} />
-        <Form />
+        <TransactionForm />
       </div>
     ) : (
       <div>

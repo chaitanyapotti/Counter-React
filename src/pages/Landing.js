@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Card } from "reactstrap";
+import { Card, Table } from "reactstrap";
 import web3 from "../helpers/web3";
-import Form from "./Form";
 import { Grid, Col, Row } from "../helpers/Grid";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
@@ -83,9 +82,22 @@ class Landing extends Component {
                   <div>
                     {this.state.network === "kovan" ? (
                       <div className="push-top--45 txt-xxl">
-                        <div>Network Type - Kovan</div>
-                        <div>Token Name - Stokens Fund SPV</div>
-                        <div>Token Balance - {this.state.kovanBalance}</div>
+                        <Table borderless>
+                          <tbody>
+                            <tr>
+                              <td>Network Type</td>
+                              <td>Kovan</td>
+                            </tr>
+                            <tr>
+                              <td>Token Name</td>
+                              <td>Stokens Fund SPV</td>
+                            </tr>
+                            <tr>
+                              <td>Token Balance</td>
+                              <td>{this.state.kovanBalance}</td>
+                            </tr>
+                          </tbody>
+                        </Table>
                         <Trade class="push--top txt-l" onClick={this.toggle} />
                         <Claim
                           class="push--top push--left txt-l"
@@ -95,9 +107,22 @@ class Landing extends Component {
                     ) : (
                       this.state.network === "rinkeby" && (
                         <div className="push-top--45 txt-xxl">
-                          <div>Network Type - Rinkeby</div>
-                          <div>Token Name - New York Tower One</div>
-                          <div>Token Balance - {this.state.rinkebyBalance}</div>
+                          <Table borderless>
+                            <tbody>
+                              <tr>
+                                <td>Network Type</td>
+                                <td>Rinkeby</td>
+                              </tr>
+                              <tr>
+                                <td>Token Name</td>
+                                <td>New York Tower On</td>
+                              </tr>
+                              <tr>
+                                <td>Token Balance</td>
+                                <td>{this.state.rinkebyBalance}</td>
+                              </tr>
+                            </tbody>
+                          </Table>
                           <Trade
                             class="push--top txt-l"
                             onClick={this.toggle}
