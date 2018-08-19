@@ -12,6 +12,8 @@ import {
   TradeModal,
   ClaimModal
 } from "../components";
+import counterKovan from "../helpers/contractInstances/counterKovan";
+import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
 
 class Landing extends Component {
   constructor(props) {
@@ -31,16 +33,25 @@ class Landing extends Component {
   async componentDidMount() {
     const account = await web3.eth.getAccounts();
     const network = await web3.eth.net.getNetworkType();
+    let hasTransactionAlready;
     let kovanBalance = 0;
     let rinkebyBalance = 0;
     if (network === "kovan") {
       kovanBalance = await counterErcKovan.methods.balanceOf(account[0]).call();
+      hasTransactionAlready = await counterKovan.methods
+        .transactionMapping(account[0])
+        .call();
     }
     if (network === "rinkeby") {
       rinkebyBalance = await counterErcRinkeby.methods
         .balanceOf(account[0])
         .call();
+      hasTransactionAlready = await counterRinkeby.methods
+        .transactionMapping(account[0])
+        .call();
     }
+    //Property to check if has transaction
+    console.log(hasTransactionAlready.amount === 0);
     this.setState({
       account: account[0],
       network: network,
