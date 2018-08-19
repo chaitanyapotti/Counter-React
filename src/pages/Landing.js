@@ -10,7 +10,8 @@ import {
   Claim,
   Toast,
   TradeModal,
-  ClaimModal
+  ClaimModal,
+  Refund
 } from "../components";
 import counterKovan from "../helpers/contractInstances/counterKovan";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
@@ -120,6 +121,9 @@ class Landing extends Component {
                           class="push--top push--left txt-l"
                           onClick={this.claimToggle}
                         />
+                        <Refund
+                          class="push--top push--left txt-l"
+                        />
                       </div>
                     ) : (
                       this.state.network === "rinkeby" && (
@@ -148,6 +152,9 @@ class Landing extends Component {
                           <Claim
                             class="push--top push--left txt-l"
                             onClick={this.claimToggle}
+                          />
+                          <Refund
+                            class="push--top push--left txt-l"
                           />
                         </div>
                       )
