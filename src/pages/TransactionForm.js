@@ -16,7 +16,10 @@ class TransactionForm extends Component {
       amountNyto: "",
       amountSpv: "",
       addressTrading: "",
-      encodedSecret: ""
+      encodedSecret: "",
+      isApproved: false,
+      isCreated: false,
+      message: "" //Use message to set what to show on error window
     };
   }
 
@@ -30,55 +33,74 @@ class TransactionForm extends Component {
 
   onApproveClick = async event => {
     event.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    const network = await web3.eth.net.getNetworkType();
-    this.setState({ message: "waiting on approve..." });
-    if (network === "rinkeby") {
-      await counterErcRinkeby.methods
-        .approve(counterRinkeby.options.address, this.state.amountNyto)
-        .send({ from: accounts[0] });
-    } else if (network === "kovan") {
-      await counterErcKovan.methods
-        .approve(counterKovan.options.address, this.state.amountSpv)
-        .send({ from: accounts[0] });
+    try {
+      const accounts = await web3.eth.getAccounts();
+      const network = await web3.eth.net.getNetworkType();
+      let txResponse;
+      this.setState({ message: "waiting on approve..." });
+      if (network === "rinkeby") {
+        txResponse = await counterErcRinkeby.methods
+          .approve(counterRinkeby.options.address, this.state.amountNyto)
+          .send({ from: accounts[0] });
+      } else if (network === "kovan") {
+        txResponse = await counterErcKovan.methods
+          .approve(counterKovan.options.address, this.state.amountSpv)
+          .send({ from: accounts[0] });
+      }
+      if (typeof txResponse !== undefined)
+        this.setState({ message: "approved...", isApproved: true });
+    } catch (error) {
+      this.setState({
+        message: "something went wrong. Please try again",
+        isApproved: false
+      });
     }
-    this.setState({ message: "approved..." });
   };
 
   onTransactionClick = async event => {
     event.preventDefault();
     //Show encodedSecret to user in the input form
-    const accounts = await web3.eth.getAccounts();
-    const network = await web3.eth.net.getNetworkType();
-    this.setState({ message: "waiting on approve..." });
-    //2nd param should be state's trading with partner
-    if (network === "rinkeby") {
-      await counterRinkeby.methods
-        .createTx(
-          this.props.isInitiator,
-          this.state.addressTrading,
-          this.state.encodedSecret,
-          counterErcRinkeby.options.address,
-          this.state.amountNyto
-        )
-        .send({
-          from: accounts[0]
-        });
-    } else if (network === "rinkeby") {
-      await counterKovan.methods
-        .createTx(
-          this.props.isInitiator,
-          this.state.addressTrading,
-          this.state.encodedSecret,
-          counterErcKovan.options.address,
-          this.state.amountSpv
-        )
-        .send({
-          from: accounts[0]
-        });
+    try {
+      const accounts = await web3.eth.getAccounts();
+      const network = await web3.eth.net.getNetworkType();
+      let txResponse;
+      this.setState({ message: "waiting on approve..." });
+      //2nd param should be state's trading with partner
+      if (network === "rinkeby") {
+        txResponse = await counterRinkeby.methods
+          .createTx(
+            this.props.isInitiator,
+            this.state.addressTrading,
+            this.state.encodedSecret,
+            counterErcRinkeby.options.address,
+            this.state.amountNyto
+          )
+          .send({
+            from: accounts[0]
+          });
+      } else if (network === "rinkeby") {
+        txResponse = await counterKovan.methods
+          .createTx(
+            this.props.isInitiator,
+            this.state.addressTrading,
+            this.state.encodedSecret,
+            counterErcKovan.options.address,
+            this.state.amountSpv
+          )
+          .send({
+            from: accounts[0]
+          });
+      }
+      if (typeof txResponse !== undefined)
+        this.setState({ message: "approved...", isCreated: true });
+    } catch (error) {
+      this.setState({
+        message: "something went wrong. Please try again",
+        isCreated: false
+      });
     }
-    this.setState({ message: "approved..." });
   };
+
   render() {
     return (
       <div>
@@ -120,8 +142,12 @@ class TransactionForm extends Component {
         </Form>
 
         <div>
-          <Approve onClick={this.onApproveClick}/>
-          <CreateTransaction disabled={this.props.disabled} class="push--left" onClick={this.onTransactionClick}/>
+          <Approve onClick={this.onApproveClick} />
+          <CreateTransaction
+            disabled={this.props.disabled}
+            class="push--left"
+            onClick={this.onTransactionClick}
+          />
         </div>
       </div>
     );
