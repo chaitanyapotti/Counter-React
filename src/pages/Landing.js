@@ -74,7 +74,9 @@ class Landing extends Component {
         <Header account={this.state.account} />
         <Grid>
           <Row>
-            <Col lg={7} xs={12} style={{ height: "100vh" }} />
+            <Col lg={7} xs={12} style={{ height: "100vh" }}>
+              ""
+            </Col>
             <Col
               lg={5}
               xs={12}
