@@ -12,8 +12,7 @@ class TradeModal extends Component {
     super(props);
     this.state = {
       checked: true,
-      disabled: true,
-      initiatorAddress: ""
+      disabled: true
     };
   }
   onToggle = () => {
@@ -46,18 +45,7 @@ class TradeModal extends Component {
                 onToggle={this.onToggle}
               />
             </div>
-            <TextField
-              label="Enter the address of the Initiator"
-              placeholder="Address"
-              value={this.state.initiatorAddress}
-              onChange={event =>
-                this.setState({ initiatorAddress: event.target.value })
-              }
-            />
-            <InitiatedForm
-              isInitiator={this.state.checked}
-              initiatorAddress={this.state.initiatorAddress}
-            />
+            <InitiatedForm isInitiator={this.state.checked} />
           </div>
         )}
       </ModalComponent>

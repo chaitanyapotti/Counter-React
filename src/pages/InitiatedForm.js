@@ -1,11 +1,21 @@
 import React, { Component } from "react";
 import { Form } from "reactstrap";
+import Web3 from "web3";
 import web3 from "../helpers/web3";
-import { web3Read } from "../helpers/web3Read";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
 import counterKovan from "../helpers/contractInstances/counterKovan";
-import { TextField, Approve, CreateTransaction } from "../components";
+import {
+  abi,
+  counterKovanAddress,
+  counterRinkebyAddress
+} from "../helpers/contractInstances/counterDetails";
+import {
+  TextField,
+  Approve,
+  CreateTransaction,
+  FetchDetails
+} from "../components";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
 
 class InitiatedForm extends Component {
@@ -13,6 +23,7 @@ class InitiatedForm extends Component {
     super(props);
 
     this.state = {
+      initiatorAddress: "",
       amountNyto: "",
       amountSpv: "",
       addressTrading: "",
@@ -22,6 +33,20 @@ class InitiatedForm extends Component {
       message: "" //Use message to set what to show on error window
     };
   }
+
+  web3Read = network => {
+    const kovanInfura =
+      "https://kovan.infura.io/v3/dc22c9c6245742069d5fe663bfa8a698";
+    const rinkebyInfura =
+      "https://rinkeby.infura.io/v3/dc22c9c6245742069d5fe663bfa8a698";
+    switch (network) {
+      case "rinkeby":
+      default:
+        return new Web3(rinkebyInfura);
+      case "kovan":
+        return new Web3(kovanInfura);
+    }
+  };
 
   onApproveClick = async event => {
     event.preventDefault();
@@ -74,7 +99,7 @@ class InitiatedForm extends Component {
           .send({
             from: accounts[0]
           });
-      } else if (network === "rinkeby") {
+      } else if (network === "kovan") {
         txResponse = await counterKovan.methods
           .createTx(
             this.props.isInitiator,
@@ -97,10 +122,52 @@ class InitiatedForm extends Component {
     }
   };
 
+  onFetchDetails = async event => {
+    const network = await web3.eth.net.getNetworkType();
+    let txResponse;
+    const web3Read = this.web3Read(network === "rinkeby" ? "kovan" : "rinkeby");
+    if (network === "rinkeby") {
+      txResponse = await new web3Read.eth.Contract(
+        abi,
+        counterKovanAddress
+      ).methods
+        .transactionMapping(this.state.initiatorAddress)
+        .call();
+
+      this.setState({
+        amountSpv: txResponse.amount
+      });
+    } else if (network === "kovan") {
+      txResponse = await new web3Read.eth.Contract(
+        abi,
+        counterRinkebyAddress
+      ).methods
+        .transactionMapping(this.state.initiatorAddress)
+        .call();
+      this.setState({
+        amountNyto: txResponse.amount
+      });
+    }
+    console.log(txResponse);
+    this.setState({
+      encodedSecret: txResponse.digest,
+      addressTrading: this.state.initiatorAddress
+    });
+  };
+
   render() {
     return (
       <div>
         <h2>Transaction Details</h2>
+        <TextField
+          label="Enter the address of the Initiator"
+          placeholder="Address"
+          value={this.state.initiatorAddress}
+          onChange={event =>
+            this.setState({ initiatorAddress: event.target.value })
+          }
+        />
+        <FetchDetails onClick={this.onFetchDetails} />
         <Form>
           <TextField
             label="Encoded Secret"
@@ -111,11 +178,15 @@ class InitiatedForm extends Component {
             label="Amount Nyto:"
             name="amountNyto"
             value={this.state.amountNyto}
+            onChange={event =>
+              this.setState({ amountNyto: event.target.value })
+            }
           />
           <TextField
             label="Amount Spv:"
             name="amount-spv"
             value={this.state.amountSpv}
+            onChange={event => this.setState({ amountSpv: event.target.value })}
           />
           <TextField
             label="Address Trading With:"
@@ -139,5 +210,4 @@ class InitiatedForm extends Component {
     );
   }
 }
-
 export default InitiatedForm;
