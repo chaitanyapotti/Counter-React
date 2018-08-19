@@ -4,7 +4,7 @@ import web3 from "../helpers/web3";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
 import counterKovan from "../helpers/contractInstances/counterKovan";
-import { TextField, Approve, Claim, CreateTransaction } from "../components";
+import { TextField, Approve, CreateTransaction } from "../components";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
 
 class TransactionForm extends Component {
