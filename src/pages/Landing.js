@@ -57,7 +57,8 @@ class Landing extends Component {
       network: network,
       kovanBalance: kovanBalance,
       rinkebyBalance: rinkebyBalance,
-      hasTransactionAlready: hasTransactionAlready.amount !== "0"
+      hasTransactionAlready: hasTransactionAlready.amount !== "0",
+      hasRefunded: hasTransactionAlready.amount === "0"
     });
   }
 
@@ -145,6 +146,8 @@ class Landing extends Component {
                         />
                         <Refund
                           class="push--top push--left txt-l"
+                          disabled={this.state.hasRefunded}
+                          onClick={this.onRefundClick}
                         />
                       </div>
                     ) : (
@@ -177,6 +180,8 @@ class Landing extends Component {
                           />
                           <Refund
                             class="push--top push--left txt-l"
+                            disabled={this.state.hasRefunded}
+                            onClick={this.onRefundClick}
                           />
                         </div>
                       )
