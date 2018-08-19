@@ -21,9 +21,11 @@ class TransactionForm extends Component {
   }
 
   calculateEncodedSecret = async event => {
-    const encodedSecret = await web3.utils.soliditySha3(event.target.value);
+    event.persist();
+    const secret = event.target.value;
+    const encodedSecret = await web3.utils.soliditySha3(secret);
     console.log(encodedSecret);
-    this.setState({ encodedSecret: encodedSecret, secret: event.target.value });
+    this.setState({ encodedSecret: encodedSecret, secret: secret });
   };
 
   onApproveClick = async event => {
