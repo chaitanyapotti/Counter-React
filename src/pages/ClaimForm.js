@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import web3 from "../helpers/web3";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
-import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
 import counterKovan from "../helpers/contractInstances/counterKovan";
 
 class ClaimForm extends Component {
@@ -97,4 +96,4 @@ class ClaimForm extends Component {
   }
 }
 
-export default Form;
+export default ClaimForm;

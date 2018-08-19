@@ -4,7 +4,14 @@ import web3 from "../helpers/web3";
 import { Grid, Col, Row } from "../helpers/Grid";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
-import { Header, Trade, Claim, Toast, TradeModal, ClaimModal } from "../components";
+import {
+  Header,
+  Trade,
+  Claim,
+  Toast,
+  TradeModal,
+  ClaimModal
+} from "../components";
 
 class Landing extends Component {
   constructor(props) {
@@ -45,22 +52,22 @@ class Landing extends Component {
     this.setState({
       modal: !this.state.modal
     });
-  }
+  };
 
-  claimToggle = () =>{
+  claimToggle = () => {
     this.setState({
       claimModal: !this.state.claimModal
-    })
-  }
+    });
+  };
 
   onToggle = () => {
-      this.setState({
-          checked: !this.state.checked
-      })
-  }
+    this.setState({
+      checked: !this.state.checked
+    });
+  };
 
   render() {
-    console.log('state', this.state)
+    console.log("state", this.state);
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
@@ -73,7 +80,7 @@ class Landing extends Component {
               style={{ height: "100vh" }}
               className="push-top--150"
             >
-              <Card style={{ padding: "40px", width:"500px" }}>
+              <Card style={{ padding: "40px", width: "500px" }}>
                 <div className="fnt-65 txt-grad">COUNTER</div>
                 <div className="txt-xxxxl opacity-50 mrgn-landng-txt">
                   OTC Trades made easy
@@ -115,7 +122,7 @@ class Landing extends Component {
                               </tr>
                               <tr>
                                 <td>Token Name</td>
-                                <td>New York Tower On</td>
+                                <td>New York Tower One</td>
                               </tr>
                               <tr>
                                 <td>Token Balance</td>
@@ -144,17 +151,17 @@ class Landing extends Component {
             </Col>
           </Row>
         </Grid>
-        <TradeModal 
+        <TradeModal
           toggle={this.toggle}
           modal={this.state.modal}
           checked={this.state.checked}
-          onToggle={this.onToggle} 
+          onToggle={this.onToggle}
         />
         <ClaimModal
           claimModal={this.state.claimModal}
           claimToggle={this.claimToggle}
         />
-        <Toast/>
+        <Toast />
       </div>
     );
   }
