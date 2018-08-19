@@ -5,7 +5,7 @@ import Form from "./Form";
 import { Grid, Col, Row } from "../helpers/Grid";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
 import counterErcRinkeby from "../helpers/contractInstances/counterErcRinkeby";
-import { Header, ModalComponent, Trade, Claim, ToggleSwitch, Toast } from "../components";
+import { Header, Trade, Claim, Toast, TradeModal, ClaimModal } from "../components";
 
 class Landing extends Component {
   constructor(props) {
@@ -16,9 +16,9 @@ class Landing extends Component {
       kovanBalance: 0,
       rinkebyBalance: 0,
       modal: false,
+      claimModal: false,
       checked: true
     };
-    this.toggle = this.toggle.bind(this);
   }
 
   async componentDidMount() {
@@ -42,19 +42,26 @@ class Landing extends Component {
     });
   }
 
-  toggle() {
+  toggle = () => {
     this.setState({
       modal: !this.state.modal
     });
   }
 
+  claimToggle = () =>{
+    this.setState({
+      claimModal: !this.state.claimModal
+    })
+  }
+
   onToggle = () => {
       this.setState({
-          checked: false
+          checked: !this.state.checked
       })
   }
 
   render() {
+    console.log('state', this.state)
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
@@ -82,7 +89,7 @@ class Landing extends Component {
                         <Trade class="push--top txt-l" onClick={this.toggle} />
                         <Claim
                           class="push--top push--left txt-l"
-                          onClick={this.toggle}
+                          onClick={this.claimToggle}
                         />
                       </div>
                     ) : (
@@ -97,14 +104,14 @@ class Landing extends Component {
                           />
                           <Claim
                             class="push--top push--left txt-l"
-                            onClick={this.toggle}
+                            onClick={this.claimToggle}
                           />
                         </div>
                       )
                     )}
                   </div>
                 ) : (
-                  <div>
+                  <div className="txt-xl text--primary push-top--45">
                     Please unlock/install metamask and then refresh the page
                   </div>
                 )}
@@ -112,10 +119,16 @@ class Landing extends Component {
             </Col>
           </Row>
         </Grid>
-        <ModalComponent toggle={this.toggle} modal={this.state.modal}>
-            <ToggleSwitch checked={this.state.checked} onToggle={this.onToggle} />
-            <Form />
-        </ModalComponent>
+        <TradeModal 
+          toggle={this.toggle}
+          modal={this.state.modal}
+          checked={this.state.checked}
+          onToggle={this.onToggle} 
+        />
+        <ClaimModal
+          claimModal={this.state.claimModal}
+          claimToggle={this.claimToggle}
+        />
         <Toast/>
       </div>
     );

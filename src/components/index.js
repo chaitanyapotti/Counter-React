@@ -4,6 +4,9 @@ import Trade from './Trade';
 import Claim from './Claim';
 import ToggleSwitch from './ToggleSwitch';
 import Toast from './Toast';
+import TextField from './TextField';
+import TradeModal from './TradeModal';
+import ClaimModal from './ClaimModal';
 import ModalComponent from './ModalComponent';
 
 export {
@@ -13,5 +16,8 @@ export {
     Claim,
     ToggleSwitch,
     Toast,
+    TextField,
+    TradeModal,
+    ClaimModal,
     ModalComponent
 }
