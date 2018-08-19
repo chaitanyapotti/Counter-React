@@ -29,7 +29,7 @@ class InitiatedForm extends Component {
       addressTrading: "",
       encodedSecret: "",
       isApproved: false,
-      isCreated: true,
+      isCreated: false,
       message: "" //Use message to set what to show on error window
     };
   }

@@ -72,7 +72,6 @@ class Landing extends Component {
   };
 
   render() {
-    console.log("state", this.state);
     return (
       <div className="landing-img">
         <Header account={this.state.account} />

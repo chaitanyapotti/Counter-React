@@ -1,96 +1,104 @@
 import React, { Component } from "react";
+import { Form } from "reactstrap";
 import web3 from "../helpers/web3";
 import counterRinkeby from "../helpers/contractInstances/counterRinkeby";
 import counterKovan from "../helpers/contractInstances/counterKovan";
+import { TextField, FetchDetails, Claim } from "../components";
 
 class ClaimForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      counterpartyAddress: "",
       secret: "",
-      amountNyto: "",
-      amountSpv: "",
-      addressTrading: ""
+      amount: "",
+      isClaimed: false
     };
   }
 
   onClaimClick = async event => {
     event.preventDefault();
-    const accounts = await web3.eth.getAccounts();
-    const network = await web3.eth.net.getNetworkType();
-    this.setState({ message: "waiting on approve..." });
-    //address trading with should be param 2
-    if (network === "kovan") {
-      await counterKovan.methods
-        .claim(
-          this.state.secret,
-          this.state.addressTrading,
-          this.state.amountSpv
-        )
-        .send({
-          from: accounts[0]
-        });
-    } else if (network === "rinkeby") {
-      await counterRinkeby.methods
-        .claim(
-          this.state.secret,
-          this.state.addressTrading,
-          this.state.amountNyto
-        )
-        .send({
-          from: accounts[0]
-        });
+    try {
+      const accounts = await web3.eth.getAccounts();
+      const network = await web3.eth.net.getNetworkType();
+      this.setState({ message: "waiting on approve..." });
+      //address trading with should be param 2
+      if (network === "kovan") {
+        await counterKovan.methods
+          .claim(
+            this.state.secret,
+            this.state.counterpartyAddress,
+            this.state.amount
+          )
+          .send({
+            from: accounts[0]
+          });
+      } else if (network === "rinkeby") {
+        await counterRinkeby.methods
+          .claim(
+            this.state.secret,
+            this.state.counterpartyAddress,
+            this.state.amount
+          )
+          .send({
+            from: accounts[0]
+          });
+      }
+      this.setState({
+        message: "approved...",
+        isClaimed: true
+      });
+    } catch (error) {
+      this.setState({
+        message: "something went wrong. Please try again",
+        isClaimed: false
+      });
     }
-    this.setState({ message: "approved..." });
+  };
+
+  onFetchDetails = async event => {
+    const network = await web3.eth.net.getNetworkType();
+    let txResponse;
+    if (network === "rinkeby") {
+      txResponse = await counterRinkeby.methods
+        .transactionMapping(this.state.counterpartyAddress)
+        .call();
+    } else if (network === "kovan") {
+      txResponse = await counterKovan.methods
+        .transactionMapping(this.state.counterpartyAddress)
+        .call();
+    }
+    console.log(txResponse);
+    this.setState({
+      amount: txResponse.amount
+    });
   };
 
   render() {
-    console.log("state", this.state);
     return (
       <div>
         <h2>Transaction Details</h2>
-        <form>
-          <label>Secret:</label>
-          <input
-            type="text"
-            name="name"
-            className="secret"
+        <TextField
+          label="Enter the counterparty address"
+          placeholder="Address"
+          value={this.state.counterpartyAddress}
+          onChange={event =>
+            this.setState({ counterpartyAddress: event.target.value })
+          }
+        />
+        <FetchDetails onClick={this.onFetchDetails} />
+        <Form>
+          <TextField
+            label="Secret"
+            name="secret"
             value={this.state.secret}
             onChange={event => this.setState({ secret: event.target.value })}
           />
-          <label>Amount Nyto:</label>
-          <input
-            type="text"
-            name="name"
-            className="amount-nyto"
-            value={this.state.amountNyto}
-            onChange={event =>
-              this.setState({ amountNyto: event.target.value })
-            }
-          />
-          <label>Amount Spv:</label>
-          <input
-            type="text"
-            name="name"
-            className="amount-spv"
-            value={this.state.amountSpv}
-            onChange={event => this.setState({ amountSpv: event.target.value })}
-          />
+          <TextField label="Amount" name="amount" value={this.state.amount} />
+        </Form>
 
-          <label>Address Trading With:</label>
-          <input
-            type="text"
-            name="name"
-            className="address-trading"
-            value={this.state.addressTrading}
-            onChange={event =>
-              this.setState({ addressTrading: event.target.value })
-            }
-          />
-        </form>
-
-        <input type="submit" value="Claim" onClick={this.onClaimClick} />
+        <Claim onClick={this.onClaimClick} disabled={this.state.isClaimed} />
       </div>
     );
   }
