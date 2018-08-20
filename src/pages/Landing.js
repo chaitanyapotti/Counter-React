@@ -30,16 +30,10 @@ class Landing extends Component {
       hasRefunded: false,
       transactions: [
         {
-          name: 'kovan',
-          address: 'dsjddfgdshfsdjkfsjkfs'
-        },
-        {
-          name: 'rinkeby',
-          address: 'dsjddfgdshfsdjkfsjkfs'
-        },
-        {
-          name: 'ropstan',
-          address: 'dsjddfgdshfsdjkfsjkfs'
+          network: "rinkeby",
+          user: "0x",
+          hash: "hash",
+          type: "refund|claim|approve|create"
         }
       ]
     };
@@ -71,7 +65,8 @@ class Landing extends Component {
       network: network,
       kovanBalance: kovanBalance,
       rinkebyBalance: rinkebyBalance,
-      hasTransactionAlready: hasTransactionAlready && hasTransactionAlready.amount !== "0",
+      hasTransactionAlready:
+        hasTransactionAlready && hasTransactionAlready.amount !== "0",
       hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0"
     });
   }
@@ -80,18 +75,24 @@ class Landing extends Component {
     try {
       const account = await web3.eth.getAccounts();
       const network = await web3.eth.net.getNetworkType();
-
+      let txHash;
       if (network === "kovan") {
-        await counterKovan.methods.refund().send({
+        txHash = await counterKovan.methods.refund().send({
           from: account[0]
-        });
+        }).transactionHash;
       }
       if (network === "rinkeby") {
-        await counterRinkeby.methods.refund().send({
+        txHash = await counterRinkeby.methods.refund().send({
           from: account[0]
-        });
+        }).transactionHash;
       }
-      this.setState({ hasRefunded: true });
+      this.setState({
+        hasRefunded: true,
+        transactions: [
+          ...this.state.transactions,
+          { network: network, hash: txHash, user: account[0], type: "refund" }
+        ]
+      });
     } catch (error) {
       this.setState({ hasRefunded: false });
     }
@@ -110,25 +111,30 @@ class Landing extends Component {
   };
 
   render() {
-    console.log('state', this.state)
+    console.log("state", this.state);
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
         <Grid>
           <Row>
-            <Col lg={7} xs={12} style={{ height: "100vh" }} className="push-top--150">
+            <Col
+              lg={7}
+              xs={12}
+              style={{ height: "100vh" }}
+              className="push-top--150"
+            >
               <Card style={{ padding: "40px", width: "500px" }}>
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
-                    {this.state.transactions.map(item => 
+                    {this.state.transactions.map(item => (
                       <tr>
-                        <td>{item.name}</td>
-                        <td>{item.address}</td>
+                        <td>{item.network}</td>
+                        <td>{item.hash}</td>
                       </tr>
-                    )}
+                    ))}
                   </tbody>
-                </Table>  
+                </Table>
               </Card>
             </Col>
             <Col
@@ -142,44 +148,43 @@ class Landing extends Component {
                 <div className="txt-xxxxl opacity-50 mrgn-landng-txt">
                   OTC Trades made easy
                 </div>
-                {this.state.account !== "" ?
+                {this.state.account !== "" ? (
                   this.state.account !== undefined ? (
-                  <div>
-                    {this.state.network === "kovan" ? (
-                      <div className="push-top--45 txt-xxl">
-                        <Table borderless>
-                          <tbody>
-                            <tr>
-                              <td>Network Type</td>
-                              <td>Kovan</td>
-                            </tr>
-                            <tr>
-                              <td>Token Name</td>
-                              <td>Stokens Fund SPV</td>
-                            </tr>
-                            <tr>
-                              <td>Token Balance</td>
-                              <td>{this.state.kovanBalance}</td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                        <Trade
-                          class="push--top txt-l"
-                          disabled={this.state.hasTransactionAlready}
-                          onClick={this.toggle}
-                        />
-                        <Claim
-                          class="push--top push--left txt-l"
-                          onClick={this.claimToggle}
-                        />
-                        <Refund
-                          class="push--top push--left txt-l"
-                          disabled={this.state.hasRefunded}
-                          onClick={this.onRefundClick}
-                        />
-                      </div>
-                    ) : (
-                      this.state.network === "rinkeby" ? (
+                    <div>
+                      {this.state.network === "kovan" ? (
+                        <div className="push-top--45 txt-xxl">
+                          <Table borderless>
+                            <tbody>
+                              <tr>
+                                <td>Network Type</td>
+                                <td>Kovan</td>
+                              </tr>
+                              <tr>
+                                <td>Token Name</td>
+                                <td>Stokens Fund SPV</td>
+                              </tr>
+                              <tr>
+                                <td>Token Balance</td>
+                                <td>{this.state.kovanBalance}</td>
+                              </tr>
+                            </tbody>
+                          </Table>
+                          <Trade
+                            class="push--top txt-l"
+                            disabled={this.state.hasTransactionAlready}
+                            onClick={this.toggle}
+                          />
+                          <Claim
+                            class="push--top push--left txt-l"
+                            onClick={this.claimToggle}
+                          />
+                          <Refund
+                            class="push--top push--left txt-l"
+                            disabled={this.state.hasRefunded}
+                            onClick={this.onRefundClick}
+                          />
+                        </div>
+                      ) : this.state.network === "rinkeby" ? (
                         <div className="push-top--45 txt-xxl">
                           <Table borderless>
                             <tbody>
@@ -212,23 +217,19 @@ class Landing extends Component {
                             onClick={this.onRefundClick}
                           />
                         </div>
-                      )
-                    :
-                      (
+                      ) : (
                         <div className="txt-xl text--primary push-top--45">
-                          Please unlock/install metamask and then refresh the page
+                          Please unlock/install metamask and then refresh the
+                          page
                         </div>
-                      )
-                    )
-                  }
-                  </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="txt-xl text--primary push-top--45">
+                      Please unlock/install metamask and then refresh the page
+                    </div>
+                  )
                 ) : (
-                  <div className="txt-xl text--primary push-top--45">
-                    Please unlock/install metamask and then refresh the page
-                  </div>
-                )
-                :
-                (
                   <div className="txt-xl text--primary push-top--45">
                     Please unlock/install metamask and then refresh the page
                   </div>
