@@ -1,0 +1,21 @@
+1. On initial load, it flickers and shows install/unlock screen before switching to correct network
+2. Straight up crashes if network !== (rinkeby || kovan)
+3. Maintain a log of transaction hashes and show them in a table beside landing form
+
+sending tx:
+const txHash = await counterRinkeby.methods.refund().send({from: account[0]}).transactionHash;
+const tx = {txHash, network};
+
+transaction log table
+
+txHash1 (hyperlink to "https://"+network+".etherscan.io/tx/"+tx.txHash)
+txHash2
+txHash3
+txHash4
+
+Maintain the table in Landing page and keep adding items to it from remaining 3 forms + refund btn.
+
+4. Spinner beside all tx buttons. (spinner start when tx btn is clicked, ends when it gets disabled/tx is complete. when complete, spinner turns into a (green)tick or some
+symbol like that)
+
+5. npm run deploy and check if it is loading in gh-pages
