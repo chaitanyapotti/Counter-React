@@ -27,7 +27,21 @@ class Landing extends Component {
       modal: false,
       claimModal: false,
       hasTransactionAlready: false,
-      hasRefunded: false
+      hasRefunded: false,
+      transactions: [
+        {
+          name: 'kovan',
+          address: 'dsjddfgdshfsdjkfsjkfs'
+        },
+        {
+          name: 'rinkeby',
+          address: 'dsjddfgdshfsdjkfsjkfs'
+        },
+        {
+          name: 'ropstan',
+          address: 'dsjddfgdshfsdjkfsjkfs'
+        }
+      ]
     };
   }
 
@@ -57,8 +71,8 @@ class Landing extends Component {
       network: network,
       kovanBalance: kovanBalance,
       rinkebyBalance: rinkebyBalance,
-      hasTransactionAlready: hasTransactionAlready.amount !== "0",
-      hasRefunded: hasTransactionAlready.amount === "0"
+      hasTransactionAlready: hasTransactionAlready && hasTransactionAlready.amount !== "0",
+      hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0"
     });
   }
 
@@ -96,13 +110,26 @@ class Landing extends Component {
   };
 
   render() {
+    console.log('state', this.state)
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
         <Grid>
           <Row>
-            <Col lg={7} xs={12} style={{ height: "100vh" }}>
-              ""
+            <Col lg={7} xs={12} style={{ height: "100vh" }} className="push-top--150">
+              <Card style={{ padding: "40px", width: "500px" }}>
+                <div className="txt-xxxxl txt-grad">Transaction History </div>
+                <Table borderless className="push--top txt-xxl">
+                  <tbody>
+                    {this.state.transactions.map(item => 
+                      <tr>
+                        <td>{item.name}</td>
+                        <td>{item.address}</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </Table>  
+              </Card>
             </Col>
             <Col
               lg={5}
@@ -152,7 +179,7 @@ class Landing extends Component {
                         />
                       </div>
                     ) : (
-                      this.state.network === "rinkeby" && (
+                      this.state.network === "rinkeby" ? (
                         <div className="push-top--45 txt-xxl">
                           <Table borderless>
                             <tbody>
@@ -186,7 +213,14 @@ class Landing extends Component {
                           />
                         </div>
                       )
-                    )}
+                    :
+                      (
+                        <div className="txt-xl text--primary push-top--45">
+                          Please unlock/install metamask and then refresh the page
+                        </div>
+                      )
+                    )
+                  }
                   </div>
                 ) : (
                   <div className="txt-xl text--primary push-top--45">
