@@ -90,7 +90,12 @@ class Landing extends Component {
         hasRefunded: true,
         transactions: [
           ...this.state.transactions,
-          { network: network, hash: txHash, user: account[0], type: "refund" }
+          {
+            network: network,
+            hash: "https://" + network + ".etherscan.io/tx/" + txHash,
+            user: account[0],
+            type: "refund"
+          }
         ]
       });
     } catch (error) {
@@ -129,7 +134,7 @@ class Landing extends Component {
                   <tbody>
                     {this.state.transactions.map(item => (
                       <tr>
-                        <td>{item.network}</td>
+                        <td>{item.type}</td>
                         <td>{item.hash}</td>
                       </tr>
                     ))}
