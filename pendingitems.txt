@@ -1,21 +1,4 @@
-3. Maintain a log of transaction hashes and show them in a table beside landing form
 
-sending tx:
-const txHash = await counterRinkeby.methods.refund().send({from: account[0]}).transactionHash;
-const tx = {txHash, network};
+5. set object for localstorage object
 
-transaction log table
-
-txHash1 (hyperlink to "https://"+network+".etherscan.io/tx/"+tx.txHash)
-txHash2
-txHash3
-txHash4
-
-Maintain the table in Landing page and keep adding items to it from remaining 3 forms + refund btn.
-
-4. Add that txHash1 link to bottom notifier as "Check tx status here: (hyperlink)"
-
-5. Spinner beside all tx buttons. (spinner start when tx btn is clicked, ends when it gets disabled/tx is complete. when complete, spinner turns into a (green)tick or some
-symbol like that)
-
-6. css, fonts not loading in deployed version. please check
+6. deploy CI
