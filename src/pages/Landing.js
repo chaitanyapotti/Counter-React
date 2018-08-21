@@ -56,7 +56,7 @@ class Landing extends Component {
     }
     if (localStorage.getItem("txHistory") !== null) {
       const txHistory = JSON.parse(localStorage.getItem("txHistory"));
-      txHistory.clean(null);  
+      txHistory.clean(null);
       this.setState({
         transactions: [...this.state.transactions, ...txHistory]
       });
@@ -97,12 +97,7 @@ class Landing extends Component {
 
   onTransaction = (network, txHash, user, type) => {
     this.setState({
-      hash:
-        "Check Status here: " +
-        "https://" +
-        network +
-        ".etherscan.io/tx/" +
-        txHash,
+      hash: "https://" + network + ".etherscan.io/tx/" + txHash,
       transactions: this.state.transactions.concat({
         network: network,
         hash: "https://" + network + ".etherscan.io/tx/" + txHash,
@@ -136,10 +131,15 @@ class Landing extends Component {
     });
   };
 
-  notify = () => toast.success(<a href={this.state.hash} target="_blank">{this.state.hash}</a>,
-  {
-    closeOnClick: false
-  });
+  notify = () =>
+    toast.success(
+      <a href={this.state.hash} target="_blank">
+        Check Transaction Status here
+      </a>,
+      {
+        closeOnClick: false
+      }
+    );
 
   render() {
     const transArray = this.state.transactions;
@@ -161,12 +161,18 @@ class Landing extends Component {
                   <tbody>
                     {transArray &&
                       transArray.map((item, i) => (
-                          <tr style={{color: 'rgba(0,0,0,0.8)'}} key={i}>
-                            <td>{item.type}</td>
-                            <td>
-                               <a href={item.hash} style={{color: 'black', fontSize: '12px'}} target="_blank"><div>{item.hash}</div> </a>
-                            </td>
-                          </tr> 
+                        <tr style={{ color: "rgba(0,0,0,0.8)" }} key={i}>
+                          <td>{item.type}</td>
+                          <td>
+                            <a
+                              href={item.hash}
+                              style={{ color: "black", fontSize: "12px" }}
+                              target="_blank"
+                            >
+                              <div>Here</div>{" "}
+                            </a>
+                          </td>
+                        </tr>
                       ))}
                   </tbody>
                 </Table>
