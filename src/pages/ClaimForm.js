@@ -23,9 +23,10 @@ class ClaimForm extends Component {
       const accounts = await web3.eth.getAccounts();
       const network = await web3.eth.net.getNetworkType();
       this.setState({ message: "waiting on approve..." });
+      let txHash;
       //address trading with should be param 2
       if (network === "kovan") {
-        await counterKovan.methods
+        txHash = await counterKovan.methods
           .claim(
             this.state.secret,
             this.state.counterpartyAddress,
@@ -33,9 +34,9 @@ class ClaimForm extends Component {
           )
           .send({
             from: accounts[0]
-          });
+          }).transactionHash;
       } else if (network === "rinkeby") {
-        await counterRinkeby.methods
+        txHash = await counterRinkeby.methods
           .claim(
             this.state.secret,
             this.state.counterpartyAddress,
@@ -43,8 +44,9 @@ class ClaimForm extends Component {
           )
           .send({
             from: accounts[0]
-          });
+          }).transactionHash;
       }
+      this.props.onTransaction(network, txHash, accounts[0], "claim");
       this.setState({
         message: "approved...",
         isClaimed: true
@@ -79,7 +81,7 @@ class ClaimForm extends Component {
     return (
       <div>
         <h2>Transaction Details</h2>
-       
+
         <Form>
           <div>
             <TextField

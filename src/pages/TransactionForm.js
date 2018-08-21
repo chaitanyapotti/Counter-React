@@ -47,6 +47,12 @@ class TransactionForm extends Component {
           .approve(counterKovan.options.address, this.state.amountSpv)
           .send({ from: accounts[0] });
       }
+      this.props.onTransaction(
+        network,
+        txResponse.transactionHash,
+        accounts[0],
+        "approve"
+      );
       if (typeof txResponse !== undefined)
         this.setState({
           message: "approved...",
@@ -95,6 +101,12 @@ class TransactionForm extends Component {
             from: accounts[0]
           });
       }
+      this.props.onTransaction(
+        network,
+        txResponse.transactionHash,
+        accounts[0],
+        "create"
+      );
       if (typeof txResponse !== undefined)
         this.setState({ message: "approved...", isCreated: true });
     } catch (error) {

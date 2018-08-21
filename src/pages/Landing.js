@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, Table } from "reactstrap";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import web3 from "../helpers/web3";
 import { Grid, Col, Row } from "../helpers/Grid";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
@@ -61,8 +61,8 @@ class Landing extends Component {
         .transactionMapping(account[0])
         .call();
     }
-    const retrievedList = localStorage.getItem("list");
-    const list = JSON.parse(retrievedList);
+
+    const txHistory = JSON.parse(localStorage.getItem("txHistory"));
     //Property to check if has transaction
     this.setState({
       account: account[0],
@@ -71,13 +71,10 @@ class Landing extends Component {
       rinkebyBalance: rinkebyBalance,
       hasTransactionAlready:
         hasTransactionAlready && hasTransactionAlready.amount !== "0",
-      hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0",
-      transactions: list
+      hasRefunded:
+        hasTransactionAlready && hasTransactionAlready.amount === "0",
+      transactions: txHistory
     });
-  }
-
-  componentWillUnmount(){
-    localStorage.clear();
   }
 
   onRefundClick = async () => {
@@ -95,22 +92,35 @@ class Landing extends Component {
           from: account[0]
         }).transactionHash;
       }
-      this.setState({
-        hasRefunded: true,
-        hash: "https://" + network + ".etherscan.io/tx/" + txHash,
-        transactions: [
-          ...this.state.transactions,
-          {
-            network: network,
-            hash: "https://" + network + ".etherscan.io/tx/" + txHash,
-            user: account[0],
-            type: "refund"
-          }
-        ]
-      });
+      this.setState({ hasRefunded: true });
+      this.onTransaction(network, txHash, account[0], "refund");
     } catch (error) {
       this.setState({ hasRefunded: false });
     }
+  };
+
+  onTransaction = (network, txHash, user, type) => {
+    console.log("adding to local storage");
+    this.setState({
+      hash:
+        "Check Status here: " +
+        "https://" +
+        network +
+        ".etherscan.io/tx/" +
+        txHash,
+      transactions: [
+        ...this.state.transactions,
+        {
+          network: network,
+          hash: "https://" + network + ".etherscan.io/tx/" + txHash,
+          user: user,
+          type: type
+        }
+      ]
+    });
+    let txOld = JSON.parse(localStorage.getItem("txHistory"));
+    localStorage.setItem("txHistory", [...txOld, this.state.transactions]);
+    this.notify();
   };
 
   toggle = () => {
@@ -128,12 +138,9 @@ class Landing extends Component {
   notify = () => toast(this.state.hash);
 
   render() {
-    const list =  JSON.stringify(this.state.transactions);
-    localStorage.setItem("list", list);
+    let txHistory = JSON.parse(localStorage.getItem("txHistory"));
+    console.log(txHistory);
     console.log("state", this.state);
-    if(this.state.hash !== ""){
-      this.notify();
-    }
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
@@ -149,10 +156,12 @@ class Landing extends Component {
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
-                    {this.state.transactions.map((item,i) => (
+                    {txHistory.map((item, i) => (
                       <tr key={i}>
                         <td>{item.type}</td>
-                        <td>{item.hash}</td>
+                        <td>
+                          <a href={item.hash}>here</a>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -262,10 +271,15 @@ class Landing extends Component {
             </Col>
           </Row>
         </Grid>
-        <TradeModal toggle={this.toggle} modal={this.state.modal} />
+        <TradeModal
+          toggle={this.toggle}
+          modal={this.state.modal}
+          onTransaction={this.onTransaction}
+        />
         <ClaimModal
           claimModal={this.state.claimModal}
           claimToggle={this.claimToggle}
+          onTransaction={this.onTransaction}
         />
         <Toast />
       </div>

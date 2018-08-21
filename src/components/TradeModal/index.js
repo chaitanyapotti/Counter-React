@@ -32,7 +32,10 @@ class TradeModal extends Component {
                 onToggle={this.onToggle}
               />
             </div>
-            <TransactionForm isInitiator={this.state.checked} />
+            <TransactionForm
+              isInitiator={this.state.checked}
+              onTransaction={this.props.onTransaction}
+            />
           </div>
         ) : (
           <div className="push--bottom">
@@ -43,7 +46,10 @@ class TradeModal extends Component {
                 onToggle={this.onToggle}
               />
             </div>
-            <InitiatedForm isInitiator={this.state.checked} />
+            <InitiatedForm
+              isInitiator={this.state.checked}
+              onTransaction={this.props.onTransaction}
+            />
           </div>
         )}
       </ModalComponent>
