@@ -56,8 +56,9 @@ class Landing extends Component {
     }
     if (localStorage.getItem("txHistory") !== null) {
       const txHistory = JSON.parse(localStorage.getItem("txHistory"));
+      txHistory.clean(null);  
       this.setState({
-        transactions: [...this.state.transactions, txHistory]
+        transactions: [...this.state.transactions, ...txHistory]
       });
     }
     //Property to check if has transaction
@@ -130,7 +131,10 @@ class Landing extends Component {
     });
   };
 
-  notify = () => toast.success(this.state.hash);
+  notify = () => toast.success(<a href={this.state.hash} target="_blank">{this.state.hash}</a>,
+  {
+    closeOnClick: false
+  });
 
   render() {
     const transArray = this.state.transactions;
@@ -146,18 +150,18 @@ class Landing extends Component {
               style={{ height: "100vh" }}
               className="push-top--150"
             >
-              <Card style={{ padding: "40px", width: "500px" }}>
+              <Card style={{ padding: "20px", width: "650px" }}>
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
                     {transArray &&
                       transArray.map((item, i) => (
-                        <tr key={i}>
-                          <td>{item.type}</td>
-                          <td>
-                            <a href={item.hash}>here</a>
-                          </td>
-                        </tr>
+                          <tr style={{color: 'rgba(0,0,0,0.8)'}} key={i}>
+                            <td>{item.type}</td>
+                            <td>
+                               <a href={item.hash} style={{color: 'black', fontSize: '12px'}} target="_blank"><div>{item.hash}</div> </a>
+                            </td>
+                          </tr> 
                       ))}
                   </tbody>
                 </Table>

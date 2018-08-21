@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { ToastContainer} from 'react-toastify';
- 
+
 class Toast extends Component {
     render(){
       return (
         <div>
           <ToastContainer
             position="bottom-center"
+            style={{ width: "810px"}}
             autoClose={false}
             newestOnTop={false}
             rtl={false}
