@@ -46,11 +46,11 @@ class ClaimForm extends Component {
             from: accounts[0]
           }).transactionHash;
       }
-      this.props.onTransaction(network, txHash, accounts[0], "claim");
       this.setState({
         message: "approved...",
         isClaimed: true
       });
+      this.props.onTransaction(network, txHash, accounts[0], "claim");
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",

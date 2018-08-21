@@ -27,7 +27,6 @@ class TransactionForm extends Component {
     event.persist();
     const secret = event.target.value;
     const encodedSecret = await web3.utils.soliditySha3(secret);
-    console.log(encodedSecret);
     this.setState({ encodedSecret: encodedSecret, secret: secret });
   };
 
@@ -47,18 +46,18 @@ class TransactionForm extends Component {
           .approve(counterKovan.options.address, this.state.amountSpv)
           .send({ from: accounts[0] });
       }
-      this.props.onTransaction(
-        network,
-        txResponse.transactionHash,
-        accounts[0],
-        "approve"
-      );
       if (typeof txResponse !== undefined)
         this.setState({
           message: "approved...",
           isApproved: true,
           isCreated: false
         });
+      this.props.onTransaction(
+        network,
+        txResponse.transactionHash,
+        accounts[0],
+        "approve"
+      );
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",
@@ -101,14 +100,15 @@ class TransactionForm extends Component {
             from: accounts[0]
           });
       }
+      if (typeof txResponse !== undefined)
+        this.setState({ message: "approved...", isCreated: true });
+
       this.props.onTransaction(
         network,
         txResponse.transactionHash,
         accounts[0],
         "create"
       );
-      if (typeof txResponse !== undefined)
-        this.setState({ message: "approved...", isCreated: true });
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",

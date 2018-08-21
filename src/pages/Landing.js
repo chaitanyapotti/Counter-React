@@ -61,7 +61,9 @@ class Landing extends Component {
         .transactionMapping(account[0])
         .call();
     }
-    const txHistory = JSON.parse(localStorage.getItem("txHistory"));
+    const txHistory = localStorage.getItem("txHistory")
+      ? JSON.parse(localStorage.getItem("txHistory"))
+      : [];
     console.log(txHistory);
     //Property to check if has transaction
     this.setState({
@@ -100,6 +102,11 @@ class Landing extends Component {
 
   onTransaction = (network, txHash, user, type) => {
     console.log("adding to local storage");
+    let txOld = JSON.parse(localStorage.getItem("txHistory"));
+    localStorage.setItem(
+      "txHistory",
+      JSON.stringify([...txOld, this.state.transactions])
+    );
     this.setState({
       hash:
         "Check Status here: " +
@@ -117,8 +124,6 @@ class Landing extends Component {
         }
       ]
     });
-    let txOld = JSON.parse(localStorage.getItem("txHistory"));
-    localStorage.setItem("txHistory", [...txOld, this.state.transactions]);
     this.notify();
   };
 
@@ -134,12 +139,7 @@ class Landing extends Component {
     });
   };
 
-  notify = () =>
-    toast(
-      <div>
-        <a>{this.state.hash}</a>
-      </div>
-    );
+  notify = () => toast(this.state.hash);
 
   render() {
     return (
