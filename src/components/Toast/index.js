@@ -9,7 +9,6 @@ class Toast extends Component {
             position="bottom-center"
             autoClose={false}
             newestOnTop={false}
-            closeOnClick
             rtl={false}
             pauseOnVisibilityChange={false}
             draggable={false} />

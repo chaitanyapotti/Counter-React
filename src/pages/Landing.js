@@ -96,10 +96,6 @@ class Landing extends Component {
 
   onTransaction = (network, txHash, user, type) => {
     let txOld = JSON.parse(localStorage.getItem("txHistory"));
-    localStorage.setItem(
-      "txHistory",
-      JSON.stringify(this.state.transactions.concat(txOld))
-    );
     this.setState({
       hash:
         "Check Status here: " +
@@ -134,7 +130,7 @@ class Landing extends Component {
     });
   };
 
-  notify = () => toast(this.state.hash);
+  notify = () => toast.success(this.state.hash);
 
   render() {
     const transArray = this.state.transactions;
