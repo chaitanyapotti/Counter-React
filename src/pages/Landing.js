@@ -95,12 +95,7 @@ class Landing extends Component {
   };
 
   onTransaction = (network, txHash, user, type) => {
-    console.log("adding to local storage");
     let txOld = JSON.parse(localStorage.getItem("txHistory"));
-    localStorage.setItem(
-      "txHistory",
-      JSON.stringify([...txOld, this.state.transactions])
-    );
     this.setState({
       hash:
         "Check Status here: " +
@@ -118,6 +113,11 @@ class Landing extends Component {
         }
       ]
     });
+    this.state.transactions.push(txOld);
+    localStorage.setItem(
+      "txHistory",
+      JSON.stringify(this.state.transactions)
+    );
     this.notify();
   };
 
