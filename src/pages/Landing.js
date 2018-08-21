@@ -57,7 +57,7 @@ class Landing extends Component {
     if (localStorage.getItem("txHistory") !== null) {
       const txHistory = JSON.parse(localStorage.getItem("txHistory"));
       this.setState({
-        transactions: [...this.state.transactions, txHistory]
+        transactions: this.state.transactions.concat(txHistory)
       });
     }
     //Property to check if has transaction
@@ -95,6 +95,20 @@ class Landing extends Component {
   };
 
   onTransaction = (network, txHash, user, type) => {
+    this.setState({
+      hash:
+        "Check Status here: " +
+        "https://" +
+        network +
+        ".etherscan.io/tx/" +
+        txHash,
+      transactions: this.state.transactions.concat({
+        network: network,
+        hash: "https://" + network + ".etherscan.io/tx/" + txHash,
+        user: user,
+        type: type
+      })
+    });
     let txOld = JSON.parse(localStorage.getItem("txHistory"));
     if (txOld !== undefined && txOld !== null)
       localStorage.setItem(
@@ -106,25 +120,6 @@ class Landing extends Component {
         "txHistory",
         JSON.stringify(this.state.transactions)
       );
-    this.setState({
-      hash:
-        "Check Status here: " +
-        "https://" +
-        network +
-        ".etherscan.io/tx/" +
-        txHash,
-      transactions: [
-        ...this.state.transactions,
-        {
-          network: network,
-          hash: "https://" + network + ".etherscan.io/tx/" + txHash,
-          user: user,
-          type: type
-        }
-      ]
-    });
-    this.state.transactions.push(txOld);
-    localStorage.setItem("txHistory", JSON.stringify(this.state.transactions));
     this.notify();
   };
 
