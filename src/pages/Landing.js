@@ -61,19 +61,18 @@ class Landing extends Component {
         .transactionMapping(account[0])
         .call();
     }
-
     const txHistory = JSON.parse(localStorage.getItem("txHistory"));
+    console.log(txHistory);
     //Property to check if has transaction
     this.setState({
+      transactions: [...this.state.transactions, txHistory],
       account: account[0],
       network: network,
       kovanBalance: kovanBalance,
       rinkebyBalance: rinkebyBalance,
       hasTransactionAlready:
         hasTransactionAlready && hasTransactionAlready.amount !== "0",
-      hasRefunded:
-        hasTransactionAlready && hasTransactionAlready.amount === "0",
-      transactions: txHistory
+      hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0"
     });
   }
 
@@ -135,12 +134,14 @@ class Landing extends Component {
     });
   };
 
-  notify = () => toast(this.state.hash);
+  notify = () =>
+    toast(
+      <div>
+        <a>{this.state.hash}</a>
+      </div>
+    );
 
   render() {
-    let txHistory = JSON.parse(localStorage.getItem("txHistory"));
-    console.log(txHistory);
-    console.log("state", this.state);
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
@@ -156,7 +157,7 @@ class Landing extends Component {
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
-                    {txHistory.map((item, i) => (
+                    {this.state.transactions.map((item, i) => (
                       <tr key={i}>
                         <td>{item.type}</td>
                         <td>
