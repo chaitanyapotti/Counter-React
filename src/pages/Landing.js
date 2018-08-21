@@ -96,7 +96,6 @@ class Landing extends Component {
   };
 
   onTransaction = (network, txHash, user, type) => {
-    let txOld = JSON.parse(localStorage.getItem("txHistory"));
     this.setState({
       hash:
         "Check Status here: " +
@@ -104,18 +103,24 @@ class Landing extends Component {
         network +
         ".etherscan.io/tx/" +
         txHash,
-      transactions: [
-        ...this.state.transactions,
-        {
-          network: network,
-          hash: "https://" + network + ".etherscan.io/tx/" + txHash,
-          user: user,
-          type: type
-        }
-      ]
+      transactions: this.state.transactions.concat({
+        network: network,
+        hash: "https://" + network + ".etherscan.io/tx/" + txHash,
+        user: user,
+        type: type
+      })
     });
-    this.state.transactions.push(txOld);
-    localStorage.setItem("txHistory", JSON.stringify(this.state.transactions));
+    let txOld = JSON.parse(localStorage.getItem("txHistory"));
+    if (txOld !== undefined && txOld !== null)
+      localStorage.setItem(
+        "txHistory",
+        JSON.stringify(this.state.transactions.concat(txOld))
+      );
+    else
+      localStorage.setItem(
+        "txHistory",
+        JSON.stringify(this.state.transactions)
+      );
     this.notify();
   };
 
