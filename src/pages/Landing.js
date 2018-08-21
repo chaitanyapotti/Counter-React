@@ -30,14 +30,7 @@ class Landing extends Component {
       hasTransactionAlready: false,
       hasRefunded: false,
       hash: "",
-      transactions: [
-        {
-          // network: "rinkeby",
-          // user: "0x",
-          // hash: "hash",
-          // type: "refund|claim|approve|create"
-        }
-      ]
+      transactions: []
     };
   }
 
@@ -61,11 +54,14 @@ class Landing extends Component {
         .transactionMapping(account[0])
         .call();
     }
-    const txHistory = JSON.parse(localStorage.getItem("txHistory"));
-    console.log(txHistory);
+    if(localStorage.getItem("txHistory") !== null){
+      const txHistory = JSON.parse(localStorage.getItem("txHistory"));
+      this.setState({
+        transactions:[...this.state.transactions, txHistory]
+      })
+    }
     //Property to check if has transaction
     this.setState({
-      transactions: [...this.state.transactions, txHistory],
       account: account[0],
       network: network,
       kovanBalance: kovanBalance,
@@ -142,6 +138,8 @@ class Landing extends Component {
     );
 
   render() {
+    const transArray = this.state.transactions;
+    console.log('state', this.state.transactions)
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
@@ -157,7 +155,7 @@ class Landing extends Component {
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
-                    {this.state.transactions.map((item, i) => (
+                    {transArray && transArray.map((item, i) => (
                       <tr key={i}>
                         <td>{item.type}</td>
                         <td>
