@@ -96,10 +96,16 @@ class Landing extends Component {
 
   onTransaction = (network, txHash, user, type) => {
     let txOld = JSON.parse(localStorage.getItem("txHistory"));
-    localStorage.setItem(
-      "txHistory",
-      JSON.stringify(this.state.transactions.concat(txOld))
-    );
+    if (txOld !== undefined && txOld !== null)
+      localStorage.setItem(
+        "txHistory",
+        JSON.stringify(this.state.transactions.concat(txOld))
+      );
+    else
+      localStorage.setItem(
+        "txHistory",
+        JSON.stringify(this.state.transactions)
+      );
     this.setState({
       hash:
         "Check Status here: " +
