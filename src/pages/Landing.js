@@ -21,7 +21,7 @@ class Landing extends Component {
     super(props);
     this.state = {
       account: "",
-      network: "",
+      network: undefined,
       kovanBalance: 0,
       rinkebyBalance: 0,
       modal: false,
@@ -30,10 +30,10 @@ class Landing extends Component {
       hasRefunded: false,
       transactions: [
         {
-          network: "rinkeby",
-          user: "0x",
-          hash: "hash",
-          type: "refund|claim|approve|create"
+          // network: "rinkeby",
+          // user: "0x",
+          // hash: "hash",
+          // type: "refund|claim|approve|create"
         }
       ]
     };
@@ -153,92 +153,94 @@ class Landing extends Component {
                 <div className="txt-xxxxl opacity-50 mrgn-landng-txt">
                   OTC Trades made easy
                 </div>
-                {this.state.account !== "" ? (
-                  this.state.account !== undefined ? (
-                    <div>
-                      {this.state.network === "kovan" ? (
-                        <div className="push-top--45 txt-xxl">
-                          <Table borderless>
-                            <tbody>
-                              <tr>
-                                <td>Network Type</td>
-                                <td>Kovan</td>
-                              </tr>
-                              <tr>
-                                <td>Token Name</td>
-                                <td>Stokens Fund SPV</td>
-                              </tr>
-                              <tr>
-                                <td>Token Balance</td>
-                                <td>{this.state.kovanBalance}</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                          <Trade
-                            class="push--top txt-l"
-                            disabled={this.state.hasTransactionAlready}
-                            onClick={this.toggle}
-                          />
-                          <Claim
-                            class="push--top push--left txt-l"
-                            onClick={this.claimToggle}
-                          />
-                          <Refund
-                            class="push--top push--left txt-l"
-                            disabled={this.state.hasRefunded}
-                            onClick={this.onRefundClick}
-                          />
-                        </div>
-                      ) : this.state.network === "rinkeby" ? (
-                        <div className="push-top--45 txt-xxl">
-                          <Table borderless>
-                            <tbody>
-                              <tr>
-                                <td>Network Type</td>
-                                <td>Rinkeby</td>
-                              </tr>
-                              <tr>
-                                <td>Token Name</td>
-                                <td>New York Tower One</td>
-                              </tr>
-                              <tr>
-                                <td>Token Balance</td>
-                                <td>{this.state.rinkebyBalance}</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                          <Trade
-                            class="push--top txt-l"
-                            onClick={this.toggle}
-                            disabled={this.state.hasTransactionAlready}
-                          />
-                          <Claim
-                            class="push--top push--left txt-l"
-                            onClick={this.claimToggle}
-                          />
-                          <Refund
-                            class="push--top push--left txt-l"
-                            disabled={this.state.hasRefunded}
-                            onClick={this.onRefundClick}
-                          />
-                        </div>
-                      ) : (
-                        <div className="txt-xl text--primary push-top--45">
-                          Please unlock/install metamask and then refresh the
-                          page
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="txt-xl text--primary push-top--45">
-                      Please unlock/install metamask and then refresh the page
-                    </div>
-                  )
+                {// this.state.network !== "" ? (
+                this.state.network !== undefined ? (
+                  <div>
+                    {this.state.network === "kovan" ? (
+                      <div className="push-top--45 txt-xxl">
+                        <Table borderless>
+                          <tbody>
+                            <tr>
+                              <td>Network Type</td>
+                              <td>Kovan</td>
+                            </tr>
+                            <tr>
+                              <td>Token Name</td>
+                              <td>Stokens Fund SPV</td>
+                            </tr>
+                            <tr>
+                              <td>Token Balance</td>
+                              <td>{this.state.kovanBalance}</td>
+                            </tr>
+                          </tbody>
+                        </Table>
+                        <Trade
+                          class="push--top txt-l"
+                          disabled={this.state.hasTransactionAlready}
+                          onClick={this.toggle}
+                        />
+                        <Claim
+                          class="push--top push--left txt-l"
+                          onClick={this.claimToggle}
+                        />
+                        <Refund
+                          class="push--top push--left txt-l"
+                          disabled={this.state.hasRefunded}
+                          onClick={this.onRefundClick}
+                        />
+                      </div>
+                    ) : this.state.network === "rinkeby" ? (
+                      <div className="push-top--45 txt-xxl">
+                        <Table borderless>
+                          <tbody>
+                            <tr>
+                              <td>Network Type</td>
+                              <td>Rinkeby</td>
+                            </tr>
+                            <tr>
+                              <td>Token Name</td>
+                              <td>New York Tower One</td>
+                            </tr>
+                            <tr>
+                              <td>Token Balance</td>
+                              <td>{this.state.rinkebyBalance}</td>
+                            </tr>
+                          </tbody>
+                        </Table>
+                        <Trade
+                          class="push--top txt-l"
+                          onClick={this.toggle}
+                          disabled={this.state.hasTransactionAlready}
+                        />
+                        <Claim
+                          class="push--top push--left txt-l"
+                          onClick={this.claimToggle}
+                        />
+                        <Refund
+                          class="push--top push--left txt-l"
+                          disabled={this.state.hasRefunded}
+                          onClick={this.onRefundClick}
+                        />
+                      </div>
+                    ) : (
+                      <div className="txt-xl text--primary push-top--45">
+                        Please note that only Rinkeby/Kovan networks are
+                        supported
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <div className="txt-xl text--primary push-top--45">
                     Please unlock/install metamask and then refresh the page
                   </div>
-                )}
+                )
+
+                //) : (
+                //   <div className="txt-xl text--primary push-top--45">
+                //     Please unlock/install metamask and then refresh the page
+                //   </div>
+                // )
+                }
               </Card>
             </Col>
           </Row>
