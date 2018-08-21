@@ -38,26 +38,21 @@ class TransactionForm extends Component {
       let txResponse;
       this.setState({ message: "waiting on approve..." });
       if (network === "rinkeby") {
-        txResponse = await counterErcRinkeby.methods
+        txResponse = (await counterErcRinkeby.methods
           .approve(counterRinkeby.options.address, this.state.amountNyto)
-          .send({ from: accounts[0] });
+          .send({ from: accounts[0] })).transactionHash;
       } else if (network === "kovan") {
-        txResponse = await counterErcKovan.methods
+        txResponse = (await counterErcKovan.methods
           .approve(counterKovan.options.address, this.state.amountSpv)
-          .send({ from: accounts[0] });
+          .send({ from: accounts[0] })).transactionHash;
       }
-      if (typeof txResponse !== undefined)
+      if (txResponse !== undefined)
         this.setState({
           message: "approved...",
           isApproved: true,
           isCreated: false
         });
-      this.props.onTransaction(
-        network,
-        txResponse.transactionHash,
-        accounts[0],
-        "approve"
-      );
+      this.props.onTransaction(network, txResponse, accounts[0], "approve");
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",
@@ -76,7 +71,7 @@ class TransactionForm extends Component {
       this.setState({ message: "waiting on approve..." });
       //2nd param should be state's trading with partner
       if (network === "rinkeby") {
-        txResponse = await counterRinkeby.methods
+        txResponse = (await counterRinkeby.methods
           .createTx(
             this.props.isInitiator,
             this.state.addressTrading,
@@ -86,9 +81,9 @@ class TransactionForm extends Component {
           )
           .send({
             from: accounts[0]
-          });
+          })).transactionHash;
       } else if (network === "kovan") {
-        txResponse = await counterKovan.methods
+        txResponse = (await counterKovan.methods
           .createTx(
             this.props.isInitiator,
             this.state.addressTrading,
@@ -98,17 +93,12 @@ class TransactionForm extends Component {
           )
           .send({
             from: accounts[0]
-          });
+          })).transactionHash;
       }
-      if (typeof txResponse !== undefined)
+      if (txResponse !== null)
         this.setState({ message: "approved...", isCreated: true });
 
-      this.props.onTransaction(
-        network,
-        txResponse.transactionHash,
-        accounts[0],
-        "create"
-      );
+      this.props.onTransaction(network, txResponse, accounts[0], "create");
     } catch (error) {
       this.setState({
         message: "something went wrong. Please try again",

@@ -78,14 +78,14 @@ class Landing extends Component {
       const network = await web3.eth.net.getNetworkType();
       let txHash;
       if (network === "kovan") {
-        txHash = await counterKovan.methods.refund().send({
+        txHash = (await counterKovan.methods.refund().send({
           from: account[0]
-        }).transactionHash;
+        })).transactionHash;
       }
       if (network === "rinkeby") {
-        txHash = await counterRinkeby.methods.refund().send({
+        txHash = (await counterRinkeby.methods.refund().send({
           from: account[0]
-        }).transactionHash;
+        })).transactionHash;
       }
       this.setState({ hasRefunded: true });
       this.onTransaction(network, txHash, account[0], "refund");
@@ -99,7 +99,7 @@ class Landing extends Component {
     let txOld = JSON.parse(localStorage.getItem("txHistory"));
     localStorage.setItem(
       "txHistory",
-      JSON.stringify([...txOld, this.state.transactions])
+      JSON.stringify(this.state.transactions.concat(txOld))
     );
     this.setState({
       hash:

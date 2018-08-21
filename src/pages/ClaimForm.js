@@ -26,7 +26,7 @@ class ClaimForm extends Component {
       let txHash;
       //address trading with should be param 2
       if (network === "kovan") {
-        txHash = await counterKovan.methods
+        txHash = (await counterKovan.methods
           .claim(
             this.state.secret,
             this.state.counterpartyAddress,
@@ -34,9 +34,9 @@ class ClaimForm extends Component {
           )
           .send({
             from: accounts[0]
-          }).transactionHash;
+          })).transactionHash;
       } else if (network === "rinkeby") {
-        txHash = await counterRinkeby.methods
+        txHash = (await counterRinkeby.methods
           .claim(
             this.state.secret,
             this.state.counterpartyAddress,
@@ -44,12 +44,13 @@ class ClaimForm extends Component {
           )
           .send({
             from: accounts[0]
-          }).transactionHash;
+          })).transactionHash;
       }
-      this.setState({
-        message: "approved...",
-        isClaimed: true
-      });
+      if (txHash !== null)
+        this.setState({
+          message: "approved...",
+          isClaimed: true
+        });
       this.props.onTransaction(network, txHash, accounts[0], "claim");
     } catch (error) {
       this.setState({
