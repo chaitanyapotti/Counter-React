@@ -59,6 +59,8 @@ class Landing extends Component {
         .transactionMapping(account[0])
         .call();
     }
+    const retrievedList = localStorage.getItem("list");
+    const list = JSON.parse(retrievedList);
     //Property to check if has transaction
     this.setState({
       account: account[0],
@@ -67,8 +69,13 @@ class Landing extends Component {
       rinkebyBalance: rinkebyBalance,
       hasTransactionAlready:
         hasTransactionAlready && hasTransactionAlready.amount !== "0",
-      hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0"
+      hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0",
+      transactions: list
     });
+  }
+
+  componentWillUnmount(){
+    localStorage.clear();
   }
 
   onRefundClick = async () => {
@@ -116,6 +123,8 @@ class Landing extends Component {
   };
 
   render() {
+    const list =  JSON.stringify(this.state.transactions);
+    localStorage.setItem("list", list);
     console.log("state", this.state);
     return (
       <div className="landing-img">
@@ -132,8 +141,8 @@ class Landing extends Component {
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
-                    {this.state.transactions.map(item => (
-                      <tr>
+                    {this.state.transactions.map((item,i) => (
+                      <tr key={i}>
                         <td>{item.type}</td>
                         <td>{item.hash}</td>
                       </tr>
