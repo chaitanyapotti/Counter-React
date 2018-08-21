@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, Table } from "reactstrap";
+import { toast } from 'react-toastify';
 import web3 from "../helpers/web3";
 import { Grid, Col, Row } from "../helpers/Grid";
 import counterErcKovan from "../helpers/contractInstances/counterErcKovan";
@@ -28,6 +29,7 @@ class Landing extends Component {
       claimModal: false,
       hasTransactionAlready: false,
       hasRefunded: false,
+      hash: "",
       transactions: [
         {
           // network: "rinkeby",
@@ -95,6 +97,7 @@ class Landing extends Component {
       }
       this.setState({
         hasRefunded: true,
+        hash: "https://" + network + ".etherscan.io/tx/" + txHash,
         transactions: [
           ...this.state.transactions,
           {
@@ -122,10 +125,15 @@ class Landing extends Component {
     });
   };
 
+  notify = () => toast(this.state.hash);
+
   render() {
     const list =  JSON.stringify(this.state.transactions);
     localStorage.setItem("list", list);
     console.log("state", this.state);
+    if(this.state.hash !== ""){
+      this.notify();
+    }
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
