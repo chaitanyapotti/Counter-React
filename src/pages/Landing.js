@@ -30,7 +30,6 @@ class Landing extends Component {
       hasTransactionAlready: false,
       hasRefunded: false,
       hash: "",
-      toastText:"",
       transactions: []
     };
   }
@@ -108,13 +107,7 @@ class Landing extends Component {
 
   onTransaction = (network, txHash, user, type) => {
     this.setState({
-      toastText:
-        "Check Status here: " +
-        "https://" +
-        network +
-        ".etherscan.io/tx/" +
-        txHash,
-      hash:"https://" + network + ".etherscan.io/tx/" + txHash,
+      hash: "https://" + network + ".etherscan.io/tx/" + txHash,
       transactions: this.state.transactions.concat({
         network: network,
         hash: "https://" + network + ".etherscan.io/tx/" + txHash,
@@ -148,10 +141,15 @@ class Landing extends Component {
     });
   };
 
-  notify = () => toast.success(<a href={this.state.hash} target="_blank">{this.state.toastText}</a>,
-  {
-    closeOnClick: false
-  });
+  notify = () =>
+    toast.success(
+      <a href={this.state.hash} target="_blank">
+        Check Transaction Status here
+      </a>,
+      {
+        closeOnClick: false
+      }
+    );
 
   render() {
     const transArray = this.state.transactions;
@@ -173,18 +171,24 @@ class Landing extends Component {
               style={{ height: "100vh" }}
               className="push-top--150"
             >
-              <Card style={{ padding: "20px", width: "650px" }}>
+              <Card style={{ padding: "40px", width: "500px" }}>
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
                     {filteredList &&
                       filteredList.map((item, i) => (
-                          <tr style={{color: 'rgba(0,0,0,0.8)'}} key={i}>
-                            <td>{item.type}</td>
-                            <td>
-                               <a href={item.hash} style={{color: 'black', fontSize: '12px'}} target="_blank"><div>{item.hash}</div> </a>
-                            </td>
-                          </tr> 
+                        <tr style={{ color: "rgba(0,0,0,0.8)" }} key={i}>
+                          <td>{item.type}</td>
+                          <td>
+                            <a
+                              href={item.hash}
+                              style={{ color: "black" }}
+                              target="_blank"
+                            >
+                              <div>Here</div>{" "}
+                            </a>
+                          </td>
+                        </tr>
                       ))}
                   </tbody>
                 </Table>
