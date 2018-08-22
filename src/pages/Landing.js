@@ -35,6 +35,7 @@ class Landing extends Component {
   }
 
   async componentDidMount() {
+    console.log("here");
     const account = await web3.eth.getAccounts();
     const network = await web3.eth.net.getNetworkType();
     let hasTransactionAlready;
