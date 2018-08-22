@@ -7,7 +7,6 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
 Array.prototype.clean = function(deleteValue) {
-
   for (var i = 0; i < this.length; i++) {
     if (this[i] === deleteValue) {
       this.splice(i, 1);
