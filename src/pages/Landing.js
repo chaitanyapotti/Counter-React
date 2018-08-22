@@ -40,40 +40,45 @@ class Landing extends Component {
     let hasTransactionAlready;
     let kovanBalance = 0;
     let rinkebyBalance = 0;
-    if (network === "kovan") {
-      kovanBalance = await counterErcKovan.methods.balanceOf(account[0]).call();
-      hasTransactionAlready = await counterKovan.methods
-        .transactionMapping(account[0])
-        .call();
-    }
-    if (network === "rinkeby") {
-      rinkebyBalance = await counterErcRinkeby.methods
-        .balanceOf(account[0])
-        .call();
-      hasTransactionAlready = await counterRinkeby.methods
-        .transactionMapping(account[0])
-        .call();
-    }
-    if (localStorage.getItem("txHistory") !== null) {
-      const txHistory = JSON.parse(localStorage.getItem("txHistory"));
-      txHistory.clean(null);
-      // Removing the duplicates object
-      const txArray = [...this.state.transactions, ...txHistory];
-      var uniqueArray = this.removeDuplicates(txArray, "hash");
+    if (account.length > 0) {
+      if (network === "kovan") {
+        kovanBalance = await counterErcKovan.methods
+          .balanceOf(account[0])
+          .call();
+        hasTransactionAlready = await counterKovan.methods
+          .transactionMapping(account[0])
+          .call();
+      }
+      if (network === "rinkeby") {
+        rinkebyBalance = await counterErcRinkeby.methods
+          .balanceOf(account[0])
+          .call();
+        hasTransactionAlready = await counterRinkeby.methods
+          .transactionMapping(account[0])
+          .call();
+      }
+      if (localStorage.getItem("txHistory") !== null) {
+        const txHistory = JSON.parse(localStorage.getItem("txHistory"));
+        txHistory.clean(null);
+        // Removing the duplicates object
+        const txArray = [...this.state.transactions, ...txHistory];
+        var uniqueArray = this.removeDuplicates(txArray, "hash");
+        this.setState({
+          transactions: uniqueArray
+        });
+      }
+      //Property to check if has transaction
       this.setState({
-        transactions: uniqueArray
+        account: account[0],
+        network: network,
+        kovanBalance: kovanBalance,
+        rinkebyBalance: rinkebyBalance,
+        hasTransactionAlready:
+          hasTransactionAlready && hasTransactionAlready.amount !== "0",
+        hasRefunded:
+          hasTransactionAlready && hasTransactionAlready.amount === "0"
       });
     }
-    //Property to check if has transaction
-    this.setState({
-      account: account[0],
-      network: network,
-      kovanBalance: kovanBalance,
-      rinkebyBalance: rinkebyBalance,
-      hasTransactionAlready:
-        hasTransactionAlready && hasTransactionAlready.amount !== "0",
-      hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0"
-    });
   }
 
   removeDuplicates = (array, key) => {
@@ -157,9 +162,9 @@ class Landing extends Component {
     const userNetwork = this.state.network;
 
     const filteredList = transArray.filter(val => {
-      return (val.user === userAccount && val.network === userNetwork)
-    })
-  
+      return val.user === userAccount && val.network === userNetwork;
+    });
+
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
