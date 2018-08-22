@@ -30,6 +30,7 @@ class Landing extends Component {
       hasTransactionAlready: false,
       hasRefunded: false,
       hash: "",
+      toastText:"",
       transactions: []
     };
   }
@@ -56,9 +57,12 @@ class Landing extends Component {
     }
     if (localStorage.getItem("txHistory") !== null) {
       const txHistory = JSON.parse(localStorage.getItem("txHistory"));
-      txHistory.clean(null);  
+      txHistory.clean(null);
+      // Removing the duplicates object
+      const txArray = [...this.state.transactions, ...txHistory];
+      var uniqueArray = this.removeDuplicates(txArray, "hash");
       this.setState({
-        transactions: [...this.state.transactions, ...txHistory]
+        transactions: uniqueArray
       });
     }
     //Property to check if has transaction
@@ -72,6 +76,13 @@ class Landing extends Component {
       hasRefunded: hasTransactionAlready && hasTransactionAlready.amount === "0"
     });
   }
+
+  removeDuplicates = (array, key) => {
+    return array.reduce((arr, item) => {
+      const removed = arr.filter(i => i[key] !== item[key]);
+      return [...removed, item];
+    }, []);
+  };
 
   onRefundClick = async () => {
     try {
@@ -97,12 +108,13 @@ class Landing extends Component {
 
   onTransaction = (network, txHash, user, type) => {
     this.setState({
-      hash:
+      toastText:
         "Check Status here: " +
         "https://" +
         network +
         ".etherscan.io/tx/" +
         txHash,
+      hash:"https://" + network + ".etherscan.io/tx/" + txHash,
       transactions: this.state.transactions.concat({
         network: network,
         hash: "https://" + network + ".etherscan.io/tx/" + txHash,
@@ -136,14 +148,20 @@ class Landing extends Component {
     });
   };
 
-  notify = () => toast.success(<a href={this.state.hash} target="_blank">{this.state.hash}</a>,
+  notify = () => toast.success(<a href={this.state.hash} target="_blank">{this.state.toastText}</a>,
   {
     closeOnClick: false
   });
 
   render() {
     const transArray = this.state.transactions;
-    console.log("state", this.state.transactions);
+    const userAccount = this.state.account;
+    const userNetwork = this.state.network;
+
+    const filteredList = transArray.filter(val => {
+      return (val.user === userAccount && val.network === userNetwork)
+    })
+  
     return (
       <div className="landing-img">
         <Header account={this.state.account} />
@@ -159,8 +177,8 @@ class Landing extends Component {
                 <div className="txt-xxxxl txt-grad">Transaction History </div>
                 <Table borderless className="push--top txt-xxl">
                   <tbody>
-                    {transArray &&
-                      transArray.map((item, i) => (
+                    {filteredList &&
+                      filteredList.map((item, i) => (
                           <tr style={{color: 'rgba(0,0,0,0.8)'}} key={i}>
                             <td>{item.type}</td>
                             <td>
