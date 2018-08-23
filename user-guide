@@ -1,0 +1,38 @@
+Unlock the Metamask and choose either Rinkeby/Kovan network
+If you are an initiator:
+    i. click on Trade button
+    ii. Select Yes on the Do you Wish To Initiate Toggle
+    iii. Fill all the fields and click on Approve. A metamask window will open and you are asked to confirm the transaction.
+        After you confirm the transaction, a popup from below will appear with the transaction link which takes you to
+        ether scan when you click on it.
+    iv. After the approval is done you can click on the Create Transaction button and confirm the transaction in the metamask window
+
+if you are not an initiator:
+
+    i. Select No on the Do you Wish To Initiate Toggle
+    ii. Give the address of the person whom you are trading with and click on fetch details button
+    iii. You will get all the fields except the amount of spv/nyto which you have to Fill
+    iv. click on approve button and then transaction button after it is enabled
+
+
+Claiming Process:
+
+    i. The initiator has to do the claim first and then the non-initiator has to claim.
+
+If you are an initiator:
+    i. you have to switch the network . suppose you have initiated a transaction from rinkeby, you have to switch to kovan and vice-versa.
+    ii. click on the claim button . Fill the counterparty address and click on fetch which autofills the amount field.
+        you have to fill your secret and click on claim, a popup from below will appear with the transaction link which takes you to
+        ether scan when you click on it.
+
+if you are not the initiator:
+    i. you have to switch the network . suppose you have initiated a transaction from rinkeby, you have to switch to kovan and vice-versa
+    ii. click on the claim button . Fill the counterparty address and click on fetch which autofills the amount field.
+        you have to fill the secret which you will get from the initiator and click on claim, a popup from below will appear with the transaction link which takes you to
+        ether scan when you click on it.
+
+
+Refund Process:
+
+    i. you can opt for the refund only after an hour after you have approved the transaction.
+    ii. when you click on the refund, a metamask window will be opened where you have to confirm the transaction.
