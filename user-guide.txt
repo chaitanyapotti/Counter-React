@@ -34,5 +34,5 @@ if you are not the initiator:
 
 Refund Process:
 
-    i. you can opt for the refund only after an hour after you have approved the transaction.
+    i. you can opt for the refund only after an hour after you have created the transaction.
     ii. when you click on the refund, a metamask window will be opened where you have to confirm the transaction.
