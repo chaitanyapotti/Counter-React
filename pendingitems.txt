@@ -1,4 +1,0 @@
-
-5. set object for localstorage object
-
-6. deploy CI

@@ -1,0 +1,20 @@
+1. Check for the version of 'npm' by typing the command : npm --version
+    i. if npm version is not found:
+        a. windows : Run the below commands
+                    -> Download the Windows installer : https://nodejs.org/en/
+                    -> Run the installer
+                    -> Accept the license agreement, Accept the custom location(click next), select npm package manager, click next and install
+                    -> restart your computer (You won’t be able to run Node.js® until you restart your computer)
+                    -> Start PowerShell as Administrator and run the command : npm install --global --production windows-build-tools
+
+        b. ubuntu : Run the below commands
+                    ->curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+                    -> sudo apt-get install -y nodejs
+                    -> sudo apt-get install -y build-essential
+        
+        c. mac : Run the below command
+                -> curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/" 
+
+2. Checkout to the project path and install the project requirements by running the command -> npm install
+
+Build the project by running the command -> npm run build
